@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Calendar as CalendarIcon, Cpu, Settings, Cloud, Plus, Trash2, Edit, AlertCircle, CheckCircle2, ChevronLeft, ChevronRight, X, BookOpen } from 'lucide-react';
+import { loadActivities, saveActivities } from '../firebase';
 
 export default function PmVikas({ isAdmin }) {
   const [events, setEvents] = useState([]);
@@ -25,25 +26,17 @@ export default function PmVikas({ isAdmin }) {
   useEffect(() => { fetchEvents(); }, []);
 
   const fetchEvents = async () => {
-    // 1. First, load from localStorage if available (fast initial render)
+    // 1. Load from localStorage instantly (fast initial render)
     const localData = localStorage.getItem('pm_vikas_events');
     if (localData) {
-      try {
-        setEvents(JSON.parse(localData));
-      } catch (e) {
-        console.error('Error parsing localStorage events:', e);
-      }
+      try { setEvents(JSON.parse(localData)); } catch (e) { /* ignore */ }
     }
 
-    try {
-      const res = await fetch('/api/events');
-      if (res.ok) {
-        const data = await res.json();
-        setEvents(data);
-        localStorage.setItem('pm_vikas_events', JSON.stringify(data));
-      }
-    } catch (err) {
-      console.error('Error fetching events:', err);
+    // 2. Fetch from Firestore (source of truth)
+    const data = await loadActivities();
+    if (data !== null) {
+      setEvents(data);
+      localStorage.setItem('pm_vikas_events', JSON.stringify(data));
     }
   };
 
@@ -97,25 +90,17 @@ export default function PmVikas({ isAdmin }) {
       ? events.map(ev => ev.date === editingEventDate ? newEvent : ev)
       : [...events, newEvent];
 
-    // 2. Save locally immediately
+    // Save locally immediately so UI updates instantly
     setEvents(updatedEvents);
     localStorage.setItem('pm_vikas_events', JSON.stringify(updatedEvents));
     closeTrackerModal();
 
-    try {
-      const res = await fetch('/api/events', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedEvents)
-      });
-      if (res.ok) {
-        setSyncStatus('success-confirm');
-        setTimeout(() => setSyncStatus('synced'), 3000);
-      } else {
-        setSyncStatus('error');
-      }
-    } catch (err) {
-      console.error(err);
+    // Sync to Firestore
+    const ok = await saveActivities(updatedEvents);
+    if (ok) {
+      setSyncStatus('success-confirm');
+      setTimeout(() => setSyncStatus('synced'), 3000);
+    } else {
       setSyncStatus('error');
     }
   };
@@ -125,26 +110,20 @@ export default function PmVikas({ isAdmin }) {
     setSyncStatus('saving');
     const updatedEvents = events.filter(ev => ev.date !== dateStr);
 
-    // 3. Delete locally immediately
+    // Delete locally immediately
     setEvents(updatedEvents);
     localStorage.setItem('pm_vikas_events', JSON.stringify(updatedEvents));
 
-    try {
-      const res = await fetch('/api/events', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedEvents)
-      });
-      if (res.ok) {
-        setSyncStatus('success-confirm');
-        setTimeout(() => setSyncStatus('synced'), 3000);
-      } else {
-        setSyncStatus('error');
-      }
-    } catch (err) {
+    // Sync to Firestore
+    const ok = await saveActivities(updatedEvents);
+    if (ok) {
+      setSyncStatus('success-confirm');
+      setTimeout(() => setSyncStatus('synced'), 3000);
+    } else {
       setSyncStatus('error');
     }
   };
+
 
   // Render calendar cells
   const renderCells = () => {
