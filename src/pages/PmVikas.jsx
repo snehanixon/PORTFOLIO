@@ -18,6 +18,9 @@ export default function PmVikas({ isAdmin }) {
   // Sync Status
   const [syncStatus, setSyncStatus] = useState('synced');
 
+  // Search filter query
+  const [searchQuery, setSearchQuery] = useState('');
+
   // Fetch events
   useEffect(() => { fetchEvents(); }, []);
 
@@ -146,6 +149,19 @@ export default function PmVikas({ isAdmin }) {
   // Render calendar cells
   const renderCells = () => {
     const cells = [];
+    const query = searchQuery.toLowerCase();
+
+    const eventMatchesQuery = (ev) => {
+      if (!ev) return false;
+      if (!searchQuery) return true;
+      return (
+        (ev.title && ev.title.toLowerCase().includes(query)) ||
+        (ev.description && ev.description.toLowerCase().includes(query)) ||
+        (ev.category && ev.category.toLowerCase().includes(query)) ||
+        (ev.date && ev.date.toLowerCase().includes(query))
+      );
+    };
+
     // Prev month fillers
     for (let i = firstDayIndex - 1; i >= 0; i--) {
       const d = prevMonthDays - i;
@@ -153,10 +169,11 @@ export default function PmVikas({ isAdmin }) {
       const prevY = month === 0 ? year - 1 : year;
       const dateStr = formatDateStr(prevY, prevM, d);
       const hasEv = getEventForDate(dateStr);
+      const isMatch = !searchQuery || eventMatchesQuery(hasEv);
       cells.push(
-        <div key={`prev-${d}`} className={`cal-cell faded ${selectedDateStr === dateStr ? 'sel' : ''}`} onClick={() => setSelectedDateStr(dateStr)}>
+        <div key={`prev-${d}`} className={`cal-cell faded ${selectedDateStr === dateStr ? 'sel' : ''} ${hasEv && !isMatch ? 'search-no-match' : ''}`} onClick={() => setSelectedDateStr(dateStr)}>
           <span className="cal-num">{d}</span>
-          {hasEv && <span className={`cal-dot ${hasEv.category || 'internship'}`} />}
+          {hasEv && <span className={`cal-dot ${hasEv.category || 'internship'} ${!isMatch ? 'faded-dot' : ''}`} />}
         </div>
       );
     }
@@ -165,10 +182,11 @@ export default function PmVikas({ isAdmin }) {
       const dateStr = formatDateStr(year, month, d);
       const hasEv = getEventForDate(dateStr);
       const isToday = new Date().toDateString() === new Date(year, month, d).toDateString();
+      const isMatch = !searchQuery || eventMatchesQuery(hasEv);
       cells.push(
-        <div key={`curr-${d}`} className={`cal-cell ${selectedDateStr === dateStr ? 'sel' : ''} ${isToday ? 'today' : ''} ${hasEv ? 'has-ev' : ''}`} onClick={() => setSelectedDateStr(dateStr)}>
+        <div key={`curr-${d}`} className={`cal-cell ${selectedDateStr === dateStr ? 'sel' : ''} ${isToday ? 'today' : ''} ${hasEv ? 'has-ev' : ''} ${hasEv && !isMatch ? 'search-no-match' : ''}`} onClick={() => setSelectedDateStr(dateStr)}>
           <span className="cal-num">{d}</span>
-          {hasEv && <span className={`cal-dot ${hasEv.category || 'internship'}`} />}
+          {hasEv && <span className={`cal-dot ${hasEv.category || 'internship'} ${!isMatch ? 'faded-dot' : ''}`} />}
         </div>
       );
     }
@@ -179,17 +197,29 @@ export default function PmVikas({ isAdmin }) {
       const nextY = month === 11 ? year + 1 : year;
       const dateStr = formatDateStr(nextY, nextM, d);
       const hasEv = getEventForDate(dateStr);
+      const isMatch = !searchQuery || eventMatchesQuery(hasEv);
       cells.push(
-        <div key={`next-${d}`} className={`cal-cell faded ${selectedDateStr === dateStr ? 'sel' : ''}`} onClick={() => setSelectedDateStr(dateStr)}>
+        <div key={`next-${d}`} className={`cal-cell faded ${selectedDateStr === dateStr ? 'sel' : ''} ${hasEv && !isMatch ? 'search-no-match' : ''}`} onClick={() => setSelectedDateStr(dateStr)}>
           <span className="cal-num">{d}</span>
-          {hasEv && <span className={`cal-dot ${hasEv.category || 'internship'}`} />}
+          {hasEv && <span className={`cal-dot ${hasEv.category || 'internship'} ${!isMatch ? 'faded-dot' : ''}`} />}
         </div>
       );
     }
     return cells;
   };
 
-  const sortedEvents = [...events].sort((a, b) => new Date(a.date) - new Date(b.date));
+  const filteredEvents = events.filter(ev => {
+    if (!searchQuery) return true;
+    const query = searchQuery.toLowerCase();
+    return (
+      (ev.title && ev.title.toLowerCase().includes(query)) ||
+      (ev.description && ev.description.toLowerCase().includes(query)) ||
+      (ev.category && ev.category.toLowerCase().includes(query)) ||
+      (ev.date && ev.date.toLowerCase().includes(query))
+    );
+  });
+
+  const sortedEvents = [...filteredEvents].sort((a, b) => new Date(a.date) - new Date(b.date));
 
   return (
     <div className="pm-vikas-page">
@@ -322,14 +352,25 @@ export default function PmVikas({ isAdmin }) {
 
           {/* ── ACTIVITY TIMELINE ── */}
           <div className="timeline-section">
-            <div className="tracker-section-header" style={{marginTop:'50px'}}>
-              <Cpu size={20} className="tracker-header-icon" />
-              <h2>Internship Activity Timeline</h2>
+            <div className="tracker-section-header" style={{marginTop:'50px', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'12px'}}>
+              <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
+                <Cpu size={20} className="tracker-header-icon" />
+                <h2>Internship Activity Timeline</h2>
+              </div>
+              <div className="search-wrap">
+                <input
+                  type="text"
+                  placeholder="Search activities..."
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  className="search-input"
+                />
+              </div>
             </div>
 
             {sortedEvents.length === 0 ? (
               <div className="glass-card" style={{padding:'40px', textAlign:'center', color:'var(--text-muted)'}}>
-                <p>No activity logs yet. Login as admin and use the <strong>+ Add Activity</strong> button to start logging.</p>
+                <p>{searchQuery ? 'No activities match your search query.' : 'No activity logs yet. Login as admin and use the + Add Activity button to start logging.'}</p>
               </div>
             ) : (
               <div className="v-timeline">
@@ -582,12 +623,80 @@ export default function PmVikas({ isAdmin }) {
         .v-content { display: flex; flex-direction: column; gap: 6px; }
         .v-date { font-size: 0.78rem; font-weight: 700; color: #8b5cf6; letter-spacing: 0.04em; }
 
-        .v-card { background: #fff !important; border: 1.5px solid var(--card-border) !important; }
-        .v-card:hover { border-color: #8b5cf6 !important; }
+        .v-card {
+          background: #fff !important;
+          border: 1.5px solid var(--card-border) !important;
+          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .v-card:hover {
+          border-color: #8b5cf6 !important;
+          transform: translateY(-4px);
+          box-shadow: 0 12px 24px rgba(139, 92, 246, 0.15);
+        }
         .v-card-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
         .v-card-top h3 { font-size: 1rem; font-weight: 800; color: var(--text); line-height: 1.3; }
         .v-card-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
         .v-card-actions { display: flex; gap: 8px; margin-top: 10px; }
+
+        /* Search styling */
+        .search-wrap {
+          position: relative;
+        }
+        .search-input {
+          padding: 8px 16px;
+          border-radius: 8px;
+          border: 1.5px solid var(--card-border);
+          outline: none;
+          background: #fff;
+          color: var(--text);
+          font-size: 0.88rem;
+          min-width: 220px;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .search-input:focus {
+          border-color: var(--primary);
+          box-shadow: 0 0 0 3px rgba(245,166,35,0.15);
+        }
+
+        /* Pulsing today or selected cell with glow and glassmorphism */
+        .cal-cell.sel {
+          background: rgba(245, 166, 35, 0.12) !important;
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border-color: var(--primary) !important;
+          box-shadow: 0 0 12px 2px rgba(245, 166, 35, 0.35) !important;
+          animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+        .cal-cell.today {
+          border-color: var(--dark) !important;
+          box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+        .cal-cell.search-no-match {
+          opacity: 0.25;
+          pointer-events: none;
+        }
+        .faded-dot {
+          opacity: 0.15;
+        }
+        
+        @keyframes pulseGlow {
+          0%, 100% { box-shadow: 0 0 12px 2px rgba(245, 166, 35, 0.3); }
+          50% { box-shadow: 0 0 18px 4px rgba(245, 166, 35, 0.5); }
+        }
+
+        /* Detail Card Transitions */
+        .detail-body {
+          display: flex; flex-direction: column; gap: 10px;
+          animation: fadeSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .detail-empty {
+          display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 30px 20px; color: var(--text-muted); text-align: center; font-size: 0.9rem;
+          animation: fadeSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes fadeSlideIn {
+          from { opacity: 0; transform: translateY(6px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
 
         /* Small buttons */
         .btn-sm { padding: 6px 14px; font-size: 0.78rem; }
@@ -612,15 +721,20 @@ export default function PmVikas({ isAdmin }) {
           position: fixed; inset: 0; background: rgba(0,0,0,0.5);
           backdrop-filter: blur(4px); z-index: 500;
           display: flex; align-items: center; justify-content: center; padding: 20px;
+          animation: fadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
         .modal-box {
           background: #fff; border-radius: 20px; padding: 36px 32px;
           width: 100%; max-width: 420px; position: relative;
           box-shadow: 0 24px 64px rgba(0,0,0,0.18);
-          animation: modalIn 0.25s ease;
+          animation: modalIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .modal-lg { max-width: 520px; }
-        @keyframes modalIn { from { opacity:0; transform:translateY(20px) scale(0.97); } to { opacity:1; transform:translateY(0) scale(1); } }
+        @keyframes modalIn { from { opacity:0; transform:translateY(30px) scale(0.95); } to { opacity:1; transform:translateY(0) scale(1); } }
 
         .modal-close { position: absolute; top: 16px; right: 16px; background: transparent; border: 1.5px solid var(--card-border); color: var(--text-muted); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition); }
         .modal-close:hover { background: rgba(0,0,0,0.06); color: var(--text); }
