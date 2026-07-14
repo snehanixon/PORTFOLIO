@@ -2,35 +2,35 @@
   {
     "id": "1",
     "date": "2026-06-19",
-    "title": "Day 01: Introduction to IoT & Ecosystem",
+    "title": " Introduction to IoT & Ecosystem",
     "category": "internship",
     "description": "Inauguration of the PM-VIKAS IoT assistant training program. Introduced to IoT nodes, device-to-cloud architectures, real-world smart systems (cities, grid networks), and communication layers."
   },
   {
-    "id": "2",
+    "id": "1784022505671",
     "date": "2026-06-20",
-    "title": "Day 02: Microcontroller Architectures & IDE",
+    "title": "Microcontroller Architectures & IDE",
     "category": "internship",
     "description": "Study of Arduino Uno and ESP32 board layouts. Installation of Arduino IDE software, configuring port selections, writing basic C script routines, and flashing standard status LED programs."
   },
   {
-    "id": "3",
+    "id": "1784022514337",
     "date": "2026-06-22",
-    "title": "Day 03: Basic Electronic Components",
+    "title": "Basic Electronic Components",
     "category": "internship",
     "description": "Detailed analysis of electronic devices including Resistors, Capacitors, and Light Emitting Diodes (LEDs). Practical hands-on breadboard wiring configurations and simple circuit design rules."
   },
   {
-    "id": "4",
+    "id": "1784022524038",
     "date": "2026-06-23",
-    "title": "Day 04: Hardware Measurement & GPIOs",
+    "title": "Hardware Measurement & GPIOs",
     "category": "internship",
     "description": "Configuring and testing digital/analog General Purpose Input/Output (GPIO) pins. Measuring voltage, loop currents, and resistance values across wired test circuits using a digital multimeter."
   },
   {
-    "id": "5",
+    "id": "1784022533520",
     "date": "2026-06-24",
-    "title": "Day 05: Interfacing LDR (Light Sensors)",
+    "title": " Interfacing LDR (Light Sensors)",
     "category": "internship",
     "description": "Interfacing Light Dependent Resistors (LDR) to read changing analog light intensity levels. Programmed thresholds to trigger output alerts based on ambient illumination changes."
   },
