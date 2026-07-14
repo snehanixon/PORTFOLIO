@@ -1,5 +1,7 @@
 // Serverless function for Vercel deployment
 // Supports storing events in Vercel KV (Redis) with a memory fallback.
+import fs from 'fs';
+import path from 'path';
 
 let localMemoryEvents = null; // Memory fallback in case KV is not bound
 
@@ -40,79 +42,26 @@ export default async function handler(req, res) {
       }
 
       if (!events) {
-        events = localMemoryEvents || [
-          {
-            "id": "1",
-            "date": "2026-06-19",
-            "title": "Day 01: Introduction to IoT & Ecosystem",
-            "category": "internship",
-            "description": "Inauguration of the PM-VIKAS IoT assistant training program. Introduced to IoT nodes, device-to-cloud architectures, real-world smart systems (cities, grid networks), and communication layers."
-          },
-          {
-            "id": "2",
-            "date": "2026-06-20",
-            "title": "Day 02: Microcontroller Architectures & IDE",
-            "category": "internship",
-            "description": "Study of Arduino Uno and ESP32 board layouts. Installation of Arduino IDE software, configuring port selections, writing basic C script routines, and flashing standard status LED programs."
-          },
-          {
-            "id": "3",
-            "date": "2026-06-22",
-            "title": "Day 03: Basic Electronic Components",
-            "category": "internship",
-            "description": "Detailed analysis of electronic devices including Resistors, Capacitors, and Light Emitting Diodes (LEDs). Practical hands-on breadboard wiring configurations and simple circuit design rules."
-          },
-          {
-            "id": "4",
-            "date": "2026-06-23",
-            "title": "Day 04: Hardware Measurement & GPIOs",
-            "category": "internship",
-            "description": "Configuring and testing digital/analog General Purpose Input/Output (GPIO) pins. Measuring voltage, loop currents, and resistance values across wired test circuits using a digital multimeter."
-          },
-          {
-            "id": "5",
-            "date": "2026-06-24",
-            "title": "Day 05: Interfacing LDR (Light Sensors)",
-            "category": "internship",
-            "description": "Interfacing Light Dependent Resistors (LDR) to read changing analog light intensity levels. Programmed thresholds to trigger output alerts based on ambient illumination changes."
-          },
-          {
-            "id": "6",
-            "date": "2026-06-25",
-            "title": "Day 06: Interfacing DHT11 Temperature Sensor",
-            "category": "internship",
-            "description": "Interfacing the DHT11 sensor to monitor environmental temperature and humidity levels. Written data validation logic to filter out noise fluctuations and format values for transmission."
-          },
-          {
-            "id": "7",
-            "date": "2026-06-26",
-            "title": "Day 07: ESP32 WiFi & Network Protocols",
-            "category": "internship",
-            "description": "Setting up the ESP32 microcontroller's Wi-Fi module. Establishing station (STA) connections to local networks and checking communication protocols (IP addressing, TCP client/server models)."
-          },
-          {
-            "id": "8",
-            "date": "2026-06-27",
-            "title": "Day 08: Blynk IoT Cloud Setup & Auth",
-            "category": "internship",
-            "description": "Created developer accounts on Blynk IoT Cloud. Set up device templates, virtual datastreams, and generated secure Authentication Tokens. Configured basic mobile application dashboards."
-          },
-          {
-            "id": "9",
-            "date": "2026-06-29",
-            "title": "Day 09: Real-time Cloud Telemetry (Blynk)",
-            "category": "internship",
-            "description": "Programmed the ESP32 to upload environmental parameters (LDR intensity and DHT11 values) to the Blynk Cloud dashboard in real-time. Verified low-latency response and remote app widgets."
-          },
-          {
-            "id": "10",
-            "date": "2026-06-30",
-            "title": "Day 10: ThingSpeak Logger & Capstone",
-            "category": "internship",
-            "description": "Linked the ESP32 to the ThingSpeak server for long-term data logging and visualization. Assembled the final Capstone Project: an integrated Smart Home System that tracks sensors and controls output relays."
+        if (localMemoryEvents) {
+          events = localMemoryEvents;
+        } else {
+          try {
+            const filePath = path.join(process.cwd(), 'calendar_events.json');
+            if (fs.existsSync(filePath)) {
+              const fileData = fs.readFileSync(filePath, 'utf-8');
+              events = JSON.parse(fileData);
+            }
+          } catch (fileError) {
+            console.error('Error reading calendar_events.json:', fileError);
           }
-        ];
+        }
       }
+
+      // If still not loaded, use a default fallback to prevent API error
+      if (!events) {
+        events = [];
+      }
+
       return res.status(200).json(events);
     }
 
@@ -128,6 +77,14 @@ export default async function handler(req, res) {
         }
       }
 
+      // In local development or if running as a server where fs is writable
+      try {
+        const filePath = path.join(process.cwd(), 'calendar_events.json');
+        fs.writeFileSync(filePath, JSON.stringify(events, null, 2), 'utf-8');
+      } catch (fileError) {
+        console.warn('Could not write to local calendar_events.json (common on serverless):', fileError.message);
+      }
+
       localMemoryEvents = events;
       return res.status(200).json({ success: true, kvSaved: kvSuccess, events });
     }
@@ -137,3 +94,4 @@ export default async function handler(req, res) {
 
   return res.status(405).json({ error: 'Method not allowed' });
 }
+

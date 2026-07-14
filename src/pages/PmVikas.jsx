@@ -22,10 +22,26 @@ export default function PmVikas({ isAdmin }) {
   useEffect(() => { fetchEvents(); }, []);
 
   const fetchEvents = async () => {
+    // 1. First, load from localStorage if available (fast initial render)
+    const localData = localStorage.getItem('pm_vikas_events');
+    if (localData) {
+      try {
+        setEvents(JSON.parse(localData));
+      } catch (e) {
+        console.error('Error parsing localStorage events:', e);
+      }
+    }
+
     try {
       const res = await fetch('/api/events');
-      if (res.ok) { const data = await res.json(); setEvents(data); }
-    } catch (err) { console.error('Error fetching events:', err); }
+      if (res.ok) {
+        const data = await res.json();
+        setEvents(data);
+        localStorage.setItem('pm_vikas_events', JSON.stringify(data));
+      }
+    } catch (err) {
+      console.error('Error fetching events:', err);
+    }
   };
 
   // Calendar helpers
@@ -78,6 +94,11 @@ export default function PmVikas({ isAdmin }) {
       ? events.map(ev => ev.date === editingEventDate ? newEvent : ev)
       : [...events, newEvent];
 
+    // 2. Save locally immediately
+    setEvents(updatedEvents);
+    localStorage.setItem('pm_vikas_events', JSON.stringify(updatedEvents));
+    closeTrackerModal();
+
     try {
       const res = await fetch('/api/events', {
         method: 'POST',
@@ -85,11 +106,11 @@ export default function PmVikas({ isAdmin }) {
         body: JSON.stringify(updatedEvents)
       });
       if (res.ok) {
-        setEvents(updatedEvents);
         setSyncStatus('success-confirm');
-        closeTrackerModal();
         setTimeout(() => setSyncStatus('synced'), 3000);
-      } else { setSyncStatus('error'); }
+      } else {
+        setSyncStatus('error');
+      }
     } catch (err) {
       console.error(err);
       setSyncStatus('error');
@@ -100,6 +121,11 @@ export default function PmVikas({ isAdmin }) {
     if (!window.confirm('Delete this activity log?')) return;
     setSyncStatus('saving');
     const updatedEvents = events.filter(ev => ev.date !== dateStr);
+
+    // 3. Delete locally immediately
+    setEvents(updatedEvents);
+    localStorage.setItem('pm_vikas_events', JSON.stringify(updatedEvents));
+
     try {
       const res = await fetch('/api/events', {
         method: 'POST',
@@ -107,11 +133,14 @@ export default function PmVikas({ isAdmin }) {
         body: JSON.stringify(updatedEvents)
       });
       if (res.ok) {
-        setEvents(updatedEvents);
         setSyncStatus('success-confirm');
         setTimeout(() => setSyncStatus('synced'), 3000);
-      } else { setSyncStatus('error'); }
-    } catch (err) { setSyncStatus('error'); }
+      } else {
+        setSyncStatus('error');
+      }
+    } catch (err) {
+      setSyncStatus('error');
+    }
   };
 
   // Render calendar cells
