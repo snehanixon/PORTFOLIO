@@ -32,37 +32,76 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'GET') {
-      let events = null;
+      // 1. Read JSON events from the repository file
+      let jsonEvents = [];
+      try {
+        const filePath = path.join(process.cwd(), 'calendar_events.json');
+        if (fs.existsSync(filePath)) {
+          const fileData = fs.readFileSync(filePath, 'utf-8');
+          jsonEvents = JSON.parse(fileData);
+        }
+      } catch (fileError) {
+        console.error('Error reading calendar_events.json:', fileError);
+      }
+
+      // 2. Read events from Vercel KV database
+      let kvEvents = null;
       if (kv) {
         try {
-          events = await kv.get('calendar_events');
+          kvEvents = await kv.get('calendar_events');
         } catch (kvError) {
           console.error('Vercel KV Read Error:', kvError);
         }
       }
 
-      if (!events) {
-        if (localMemoryEvents) {
-          events = localMemoryEvents;
-        } else {
+      let finalEvents = [];
+      if (kvEvents) {
+        // Merge KV events and JSON events.
+        // We prioritize the version from the JSON file because Git pushes represent the deployment source of truth.
+        const mergedMap = new Map();
+        
+        // Load KV events first
+        for (const ev of kvEvents) {
+          if (ev && (ev.date || ev.id)) {
+            mergedMap.set(ev.date || ev.id, ev);
+          }
+        }
+        
+        // Overwrite or add JSON events (Git updates take precedence)
+        for (const ev of jsonEvents) {
+          if (ev && (ev.date || ev.id)) {
+            mergedMap.set(ev.date || ev.id, ev);
+          }
+        }
+        
+        finalEvents = Array.from(mergedMap.values());
+        
+        // If the merged result is different from what was in KV, sync the database back
+        if (JSON.stringify(kvEvents) !== JSON.stringify(finalEvents)) {
           try {
-            const filePath = path.join(process.cwd(), 'calendar_events.json');
-            if (fs.existsSync(filePath)) {
-              const fileData = fs.readFileSync(filePath, 'utf-8');
-              events = JSON.parse(fileData);
-            }
-          } catch (fileError) {
-            console.error('Error reading calendar_events.json:', fileError);
+            await kv.set('calendar_events', finalEvents);
+          } catch (kvWriteError) {
+            console.error('Failed to sync merged events back to Vercel KV:', kvWriteError);
+          }
+        }
+      } else {
+        // No KV events yet, initialize KV with JSON events
+        finalEvents = jsonEvents;
+        if (kv && finalEvents.length > 0) {
+          try {
+            await kv.set('calendar_events', finalEvents);
+          } catch (kvWriteError) {
+            console.error('Failed to initialize Vercel KV with JSON events:', kvWriteError);
           }
         }
       }
 
-      // If still not loaded, use a default fallback to prevent API error
-      if (!events) {
-        events = [];
+      // If still empty, use memory fallback
+      if (finalEvents.length === 0 && localMemoryEvents) {
+        finalEvents = localMemoryEvents;
       }
 
-      return res.status(200).json(events);
+      return res.status(200).json(finalEvents);
     }
 
     if (req.method === 'POST') {

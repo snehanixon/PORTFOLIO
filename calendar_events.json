@@ -35,38 +35,66 @@
     "description": "Interfacing Light Dependent Resistors (LDR) to read changing analog light intensity levels. Programmed thresholds to trigger output alerts based on ambient illumination changes."
   },
   {
-    "id": "6",
+    "id": "1784022708670",
     "date": "2026-06-25",
-    "title": "Day 06: Interfacing DHT11 Temperature Sensor",
+    "title": "Interfacing DHT11 Temperature Sensor",
     "category": "internship",
     "description": "Interfacing the DHT11 sensor to monitor environmental temperature and humidity levels. Written data validation logic to filter out noise fluctuations and format values for transmission."
   },
   {
-    "id": "7",
+    "id": "1784022717570",
     "date": "2026-06-26",
-    "title": "Day 07: ESP32 WiFi & Network Protocols",
+    "title": " ESP32 WiFi & Network Protocols",
     "category": "internship",
     "description": "Setting up the ESP32 microcontroller's Wi-Fi module. Establishing station (STA) connections to local networks and checking communication protocols (IP addressing, TCP client/server models)."
   },
   {
-    "id": "8",
+    "id": "1784022725833",
     "date": "2026-06-27",
-    "title": "Day 08: Blynk IoT Cloud Setup & Auth",
+    "title": " Blynk IoT Cloud Setup & Auth",
     "category": "internship",
     "description": "Created developer accounts on Blynk IoT Cloud. Set up device templates, virtual datastreams, and generated secure Authentication Tokens. Configured basic mobile application dashboards."
   },
   {
-    "id": "9",
+    "id": "1784022737769",
     "date": "2026-06-29",
-    "title": "Day 09: Real-time Cloud Telemetry (Blynk)",
+    "title": " Real-time Cloud Telemetry (Blynk)",
     "category": "internship",
     "description": "Programmed the ESP32 to upload environmental parameters (LDR intensity and DHT11 values) to the Blynk Cloud dashboard in real-time. Verified low-latency response and remote app widgets."
   },
   {
-    "id": "10",
+    "id": "1784022761289",
     "date": "2026-06-30",
-    "title": "Day 10: ThingSpeak Logger & Capstone",
+    "title": " ThingSpeak Logger & Capstone",
     "category": "internship",
     "description": "Linked the ESP32 to the ThingSpeak server for long-term data logging and visualization. Assembled the final Capstone Project: an integrated Smart Home System that tracks sensors and controls output relays."
+  },
+  {
+    "id": "1784022811239",
+    "date": "2026-07-09",
+    "title": "IoT network integration using Cisco Packet Tracer.",
+    "category": "internship",
+    "description": "Today's session focused on IoT network integration using Cisco Packet Tracer. Configured routers using static routing to enable communication between different LANs and successfully connected a remote PC to an IoT server. Performed end-to-end connectivity testing using ping, identified and resolved routing and default gateway issues, and verified remote monitoring and control of IoT devices through the IoT Monitor interface."
+  },
+  {
+    "id": "1784022856739",
+    "date": "2026-07-08",
+    "title": "Router Configuration & Inter-Network Communication",
+    "category": "internship",
+    "description": "Reviewed the previous day's DHCP-based LAN implementation and advanced to router configuration, exploring FastEthernet and GigabitEthernet interfaces for inter-network communication. Worked on implementing networks with both dynamic (DHCP) and static IP addressing by connecting an additional hub through a router and verifying communication between different subnets. Additionally, completed topology design tasks involving a DHCP-enabled LAN integrated with a static-IP network and a multi-router network consisting of five routers, five switches, and end devices to strengthen practical understanding of routing, IP addressing, and network connectivity in Cisco Packet Tracer."
+  },
+  {
+    "id": "1784022881873",
+    "date": "2026-07-07",
+    "title": "DHCP Configuration & LAN Simulation in Cisco Packet Tracer",
+    "category": "internship",
+    "description": "Configured a Local Area Network (LAN) in Cisco Packet Tracer by connecting a server, switch, hubs, and multiple end devices. Implemented DHCP to dynamically assign IP addresses while configuring the server with a static IP address. Verified network connectivity through ping tests between different hubs and the server, gaining hands-on experience in IP addressing, subnet masking, dynamic host configuration, and LAN communication."
+  },
+  {
+    "id": "1784022911389",
+    "date": "2026-07-06",
+    "title": "Networking Fundamentals & Cisco Packet Tracer",
+    "category": "internship",
+    "description": "Explored the fundamentals of computer networking, including networking, internetworking, the Network Layer, IPv4, IPv6, IP addressing, and subnet masking concepts. Gained hands-on experience in Cisco Packet Tracer by establishing a wired connection between two end devices using a Copper Cross-Over cable, configuring basic network settings, and verifying communication. Learned about different network cable types and their applications in wired communication. Additionally, collaborated with the team to explore MSME Hackathon 6.0 problem statements and brainstorm innovative IoT-based project ideas."
   }
 ]
