@@ -96,5 +96,40 @@
     "title": "Networking Fundamentals & Cisco Packet Tracer",
     "category": "internship",
     "description": "Explored the fundamentals of computer networking, including networking, internetworking, the Network Layer, IPv4, IPv6, IP addressing, and subnet masking concepts. Gained hands-on experience in Cisco Packet Tracer by establishing a wired connection between two end devices using a Copper Cross-Over cable, configuring basic network settings, and verifying communication. Learned about different network cable types and their applications in wired communication. Additionally, collaborated with the team to explore MSME Hackathon 6.0 problem statements and brainstorm innovative IoT-based project ideas."
+  },
+  {
+    "id": "1784024970245",
+    "date": "2026-07-14",
+    "title": " Docker & Virtualization",
+    "category": "internship",
+    "description": "Learned the fundamentals of Docker and virtualization, including the concepts of Docker, Docker Images, Containers, Dockerfiles, and the differences between Virtual Machines and Docker containers. Practiced essential Docker commands for building, running, managing, and monitoring containers. Created a VMware account to explore virtualization technologies and a Tinkercad account for simulation-based learning. Gained a clear understanding of containerization, virtualization, and their role in modern application deployment and cloud environments."
+  },
+  {
+    "id": "1784025005972",
+    "date": "2026-07-13",
+    "title": " Cloud Computing & Go Services",
+    "category": "internship",
+    "description": "Today's session focused on the fundamentals of Cloud Computing, covering the different cloud service models—Infrastructure as a Service (IaaS), Platform as a Service (PaaS), and Software as a Service (SaaS)—along with their features and real-world applications. An AWS Cloud account was created and activated with $100 cloud credits for practical learning. The Go (Golang) programming language was installed and configured, followed by the development and execution of multiple Go-based web services, including Hello World, Calculator, Greeting, Square Number, Temperature Converter, Weather Prediction, and other simple HTTP services. The session concluded with testing these services locally through localhost, providing hands-on experience in cloud computing concepts and Go web service development."
+  },
+  {
+    "id": "1784025039334",
+    "date": "2026-07-10",
+    "title": "MSME HACKATHON 6.0 IDEA SUBMISSION",
+    "category": "internship",
+    "description": "Dedicated the day to researching innovative and cost-effective solutions for MSME Hackathon 6.0. Explored various problem statements, conducted prior-art and patent searches using the WIPO PatentScope database, and finalized the project idea TeaPulse – Acoustic & Current-Signature Predictive Maintenance and Energy Optimization System for MSMEs."
+  },
+  {
+    "id": "1784025137515",
+    "date": "2026-07-03",
+    "title": "Continuation of IEEE Paper Analysis & Project Domain Finalization",
+    "category": "internship",
+    "description": "Today's session continued the research on IEEE Xplore and Google Scholar, with a deeper analysis of recent research papers related to the shortlisted project domains. Multiple papers were reviewed to compare existing methodologies, system architectures, implementation techniques, and identified research gaps. Special attention was given to understanding the novelty of proposed solutions, technologies used, datasets, and performance evaluation metrics. Discussions were held to refine the project idea by identifying feasible approaches and potential innovations that could address limitations in existing work. The session also involved organizing the collected literature for future reference, strengthening the understanding of the chosen domain, and establishing a solid research foundation for the upcoming project development phase."
+  },
+  {
+    "id": "1784025170006",
+    "date": "2026-07-04",
+    "title": "Research on IEEE Papers & Project Domain Exploration",
+    "category": "internship",
+    "description": "Today's session focused on exploring potential project domains through a comprehensive literature survey using Google Scholar and IEEE Xplore Digital Library. Various recent research papers were studied to understand current technological trends, identify research gaps, and evaluate innovative solutions across multiple domains. Emphasis was placed on analyzing paper abstracts, methodologies, proposed architectures, datasets, and future research directions to determine areas of interest for project development. The session also covered techniques for effective academic paper searching using relevant keywords, filtering papers based on publication year and citations, and understanding how to identify novel research ideas. This activity provided valuable insights into selecting a suitable project domain and laid the foundation for developing an innovative research-oriented project."
   }
 ]

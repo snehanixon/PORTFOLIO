@@ -279,6 +279,72 @@ export default function PmVikas({ isAdmin }) {
             </div>
           </div>
 
+          {/* ── PROGRESS GAUGE ── */}
+          {(() => {
+            const TOTAL_DAYS = 45;
+            const logged = events.length;
+            const pct = Math.min(100, Math.round((logged / TOTAL_DAYS) * 100));
+            const R = 54;
+            const CIRC = 2 * Math.PI * R;
+            const dash = (pct / 100) * CIRC;
+            return (
+              <div className="gauge-wrapper">
+                <div className="gauge-card glass-card">
+                  {/* Left: SVG Ring */}
+                  <div className="gauge-ring-wrap">
+                    <svg width="140" height="140" viewBox="0 0 140 140">
+                      <circle cx="70" cy="70" r={R} fill="none" stroke="#f0ece4" strokeWidth="10" />
+                      <defs>
+                        <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#f5a623" />
+                          <stop offset="100%" stopColor="#8b5cf6" />
+                        </linearGradient>
+                      </defs>
+                      <circle
+                        cx="70" cy="70" r={R}
+                        fill="none"
+                        stroke="url(#gaugeGrad)"
+                        strokeWidth="10"
+                        strokeLinecap="round"
+                        strokeDasharray={`${dash} ${CIRC}`}
+                        strokeDashoffset={CIRC * 0.25}
+                        style={{ transition: 'stroke-dasharray 1.2s cubic-bezier(0.4,0,0.2,1)' }}
+                      />
+                      <text x="70" y="63" textAnchor="middle" fontSize="22" fontWeight="800" fill="#1a1a1a" fontFamily="'Inter', sans-serif">{pct}%</text>
+                      <text x="70" y="82" textAnchor="middle" fontSize="10" fill="#888" fontFamily="'Inter', sans-serif">COMPLETE</text>
+                    </svg>
+                  </div>
+                  {/* Right: Stats */}
+                  <div className="gauge-stats">
+                    <div className="gauge-title">Program Progress</div>
+                    <div className="gauge-numbers">
+                      <div className="gauge-num-block">
+                        <span className="gauge-big">{logged}</span>
+                        <span className="gauge-label">Days Logged</span>
+                      </div>
+                      <div className="gauge-divider" />
+                      <div className="gauge-num-block">
+                        <span className="gauge-big" style={{color:'#8b5cf6'}}>{TOTAL_DAYS - logged}</span>
+                        <span className="gauge-label">Remaining</span>
+                      </div>
+                      <div className="gauge-divider" />
+                      <div className="gauge-num-block">
+                        <span className="gauge-big" style={{color:'#15803d'}}>{TOTAL_DAYS}</span>
+                        <span className="gauge-label">Total Days</span>
+                      </div>
+                    </div>
+                    <div className="gauge-bar-wrap">
+                      <div className="gauge-bar-track">
+                        <div className="gauge-bar-fill" style={{width: `${pct}%`}} />
+                      </div>
+                      <span className="gauge-bar-label">{logged} of {TOTAL_DAYS} days completed</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
           {/* ── TRACKER SECTION HEADER ── */}
           <div className="tracker-section-header">
             <CalendarIcon size={20} className="tracker-header-icon" />
@@ -754,6 +820,95 @@ export default function PmVikas({ isAdmin }) {
         /* Tracker form */
         .tracker-form { display: flex; flex-direction: column; gap: 14px; }
         .form-buttons { display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap; }
+
+        /* ── PROGRESS GAUGE ── */
+        .gauge-wrapper { margin: 28px 0; }
+        .gauge-card {
+          display: flex;
+          align-items: center;
+          gap: 36px;
+          padding: 28px 36px !important;
+          background: linear-gradient(135deg, rgba(245,166,35,0.04) 0%, rgba(139,92,246,0.04) 100%) !important;
+          border: 1.5px solid rgba(245,166,35,0.2) !important;
+          border-radius: 20px;
+        }
+        .gauge-ring-wrap {
+          flex-shrink: 0;
+          filter: drop-shadow(0 4px 16px rgba(245,166,35,0.25));
+        }
+        .gauge-stats {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+        }
+        .gauge-title {
+          font-size: 0.78rem;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: var(--text-muted);
+        }
+        .gauge-numbers {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          flex-wrap: wrap;
+        }
+        .gauge-num-block {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 3px;
+        }
+        .gauge-big {
+          font-size: 2rem;
+          font-weight: 900;
+          color: var(--primary-dark);
+          font-family: 'Playfair Display', serif;
+          line-height: 1;
+        }
+        .gauge-label {
+          font-size: 0.7rem;
+          color: var(--text-muted);
+          font-weight: 600;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+        }
+        .gauge-divider {
+          width: 1px;
+          height: 40px;
+          background: var(--card-border);
+          flex-shrink: 0;
+        }
+        .gauge-bar-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+        .gauge-bar-track {
+          height: 8px;
+          background: #f0ece4;
+          border-radius: 99px;
+          overflow: hidden;
+        }
+        .gauge-bar-fill {
+          height: 100%;
+          background: linear-gradient(90deg, #f5a623, #8b5cf6);
+          border-radius: 99px;
+          transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .gauge-bar-label {
+          font-size: 0.78rem;
+          color: var(--text-muted);
+          font-weight: 500;
+        }
+        @media (max-width: 540px) {
+          .gauge-card { flex-direction: column; padding: 24px 20px !important; gap: 20px; }
+          .gauge-ring-wrap svg { width: 120px; height: 120px; }
+          .gauge-numbers { gap: 14px; }
+          .gauge-big { font-size: 1.6rem; }
+        }
 
         @keyframes spin { to { transform: rotate(360deg); } }
       `}</style>
