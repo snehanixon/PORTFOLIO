@@ -261,36 +261,61 @@ export default function PmVikas({ isAdmin }) {
           {/* ── PROGRESS GAUGE ── */}
           {(() => {
             const TOTAL_DAYS = 45;
-            const logged = events.length;
-            const pct = Math.min(100, Math.round((logged / TOTAL_DAYS) * 100));
+            const leaveDays = events.filter(e => e.category === 'leave').length;
+            const logged = events.length - leaveDays;
+            const remaining = Math.max(0, TOTAL_DAYS - logged - leaveDays);
+            
+            const pctLogged = Math.min(100, (logged / TOTAL_DAYS) * 100);
+            const pctLeave = Math.min(100, (leaveDays / TOTAL_DAYS) * 100);
+            
             const R = 54;
             const CIRC = 2 * Math.PI * R;
-            const dash = (pct / 100) * CIRC;
+            
+            const dashLogged = (pctLogged / 100) * CIRC;
+            const dashLeave = (pctLeave / 100) * CIRC;
+            
             return (
               <div className="gauge-wrapper">
                 <div className="gauge-card glass-card">
                   {/* Left: SVG Ring */}
                   <div className="gauge-ring-wrap">
                     <svg width="140" height="140" viewBox="0 0 140 140">
+                      {/* Background (Remaining) */}
                       <circle cx="70" cy="70" r={R} fill="none" stroke="#f0ece4" strokeWidth="10" />
+                      
                       <defs>
                         <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                           <stop offset="0%" stopColor="#f5a623" />
                           <stop offset="100%" stopColor="#8b5cf6" />
                         </linearGradient>
                       </defs>
+                      
+                      {/* Logged segment */}
                       <circle
                         cx="70" cy="70" r={R}
                         fill="none"
                         stroke="url(#gaugeGrad)"
                         strokeWidth="10"
                         strokeLinecap="round"
-                        strokeDasharray={`${dash} ${CIRC}`}
+                        strokeDasharray={`${dashLogged} ${CIRC}`}
                         strokeDashoffset={CIRC * 0.25}
                         style={{ transition: 'stroke-dasharray 1.2s cubic-bezier(0.4,0,0.2,1)' }}
                       />
-                      <text x="70" y="63" textAnchor="middle" fontSize="22" fontWeight="800" fill="#1a1a1a" fontFamily="'Inter', sans-serif">{pct}%</text>
-                      <text x="70" y="82" textAnchor="middle" fontSize="10" fill="#888" fontFamily="'Inter', sans-serif">COMPLETE</text>
+                      
+                      {/* Leave segment */}
+                      <circle
+                        cx="70" cy="70" r={R}
+                        fill="none"
+                        stroke="#94a3b8"
+                        strokeWidth="10"
+                        strokeLinecap="round"
+                        strokeDasharray={`${dashLeave} ${CIRC}`}
+                        strokeDashoffset={CIRC * 0.25 - dashLogged}
+                        style={{ transition: 'stroke-dasharray 1.2s cubic-bezier(0.4,0,0.2,1)' }}
+                      />
+                      
+                      <text x="70" y="63" textAnchor="middle" fontSize="22" fontWeight="800" fill="#1a1a1a" fontFamily="'Inter', sans-serif">{Math.round(pctLogged)}%</text>
+                      <text x="70" y="82" textAnchor="middle" fontSize="10" fill="#888" fontFamily="'Inter', sans-serif">WORKED</text>
                     </svg>
                   </div>
                   {/* Right: Stats */}
@@ -299,24 +324,25 @@ export default function PmVikas({ isAdmin }) {
                     <div className="gauge-numbers">
                       <div className="gauge-num-block">
                         <span className="gauge-big">{logged}</span>
-                        <span className="gauge-label">Days Logged</span>
+                        <span className="gauge-label">Worked</span>
                       </div>
                       <div className="gauge-divider" />
                       <div className="gauge-num-block">
-                        <span className="gauge-big" style={{color:'#8b5cf6'}}>{TOTAL_DAYS - logged}</span>
+                        <span className="gauge-big" style={{color:'#94a3b8'}}>{leaveDays}</span>
+                        <span className="gauge-label">Leave</span>
+                      </div>
+                      <div className="gauge-divider" />
+                      <div className="gauge-num-block">
+                        <span className="gauge-big" style={{color:'#8b5cf6'}}>{remaining}</span>
                         <span className="gauge-label">Remaining</span>
-                      </div>
-                      <div className="gauge-divider" />
-                      <div className="gauge-num-block">
-                        <span className="gauge-big" style={{color:'#15803d'}}>{TOTAL_DAYS}</span>
-                        <span className="gauge-label">Total Days</span>
                       </div>
                     </div>
                     <div className="gauge-bar-wrap">
                       <div className="gauge-bar-track">
-                        <div className="gauge-bar-fill" style={{width: `${pct}%`}} />
+                        <div className="gauge-bar-fill" style={{width: `${pctLogged}%`}} />
+                        <div className="gauge-bar-fill-leave" style={{width: `${pctLeave}%`, background: '#94a3b8'}} />
                       </div>
-                      <span className="gauge-bar-label">{logged} of {TOTAL_DAYS} days completed</span>
+                      <span className="gauge-bar-label">{logged} days worked, {leaveDays} days leave (Total: {TOTAL_DAYS})</span>
                     </div>
                   </div>
                 </div>
@@ -353,6 +379,7 @@ export default function PmVikas({ isAdmin }) {
                 <span><span className="leg-dot internship" />Internship</span>
                 <span><span className="leg-dot project" />Project</span>
                 <span><span className="leg-dot personal" />Study</span>
+                <span><span className="leg-dot leave" />Leave</span>
               </div>
             </div>
 
@@ -481,6 +508,7 @@ export default function PmVikas({ isAdmin }) {
                   <option value="internship">Internship Training</option>
                   <option value="project">Project Work</option>
                   <option value="personal">Personal Studies</option>
+                  <option value="leave">Leave / Absent</option>
                 </select>
               </div>
               <div className="form-group">
@@ -623,6 +651,7 @@ export default function PmVikas({ isAdmin }) {
         .leg-dot.internship { background: var(--primary); }
         .leg-dot.project { background: #8b5cf6; }
         .leg-dot.personal { background: #22c55e; }
+        .leg-dot.leave { background: #94a3b8; }
 
         /* ── DETAIL CARD ── */
         .detail-card { background: #fff; border: 1.5px solid var(--card-border); }
@@ -651,6 +680,7 @@ export default function PmVikas({ isAdmin }) {
         .ev-badge.internship { background: var(--primary-light); color: var(--primary-dark); border: 1px solid rgba(245,166,35,0.3); }
         .ev-badge.project { background: rgba(139,92,246,0.08); color: #7c3aed; border: 1px solid rgba(139,92,246,0.2); }
         .ev-badge.personal { background: rgba(34,197,94,0.08); color: #15803d; border: 1px solid rgba(34,197,94,0.2); }
+        .ev-badge.leave { background: rgba(148,163,184,0.1); color: #64748b; border: 1px solid rgba(148,163,184,0.3); }
 
         /* Tracker section header inline btn */
         .fab-inline { margin-left: auto; }
@@ -870,11 +900,15 @@ export default function PmVikas({ isAdmin }) {
           background: #f0ece4;
           border-radius: 99px;
           overflow: hidden;
+          display: flex;
         }
         .gauge-bar-fill {
           height: 100%;
           background: linear-gradient(90deg, #f5a623, #8b5cf6);
-          border-radius: 99px;
+          transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .gauge-bar-fill-leave {
+          height: 100%;
           transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .gauge-bar-label {
