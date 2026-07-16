@@ -644,6 +644,7 @@ export default function PmVikas({ isAdmin }) {
         .cal-dot.internship { background: var(--primary); }
         .cal-dot.project { background: #8b5cf6; }
         .cal-dot.personal { background: #22c55e; }
+        .cal-dot.leave { background: #ef4444; }
 
         .cal-legend { display: flex; justify-content: center; gap: 12px; margin-top: 12px; font-size: 0.75rem; color: var(--text-muted); }
         .cal-legend span { display: flex; align-items: center; gap: 5px; }
