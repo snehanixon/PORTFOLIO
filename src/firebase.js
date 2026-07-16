@@ -15,12 +15,12 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey:            "REPLACE_WITH_YOUR_API_KEY",
-  authDomain:        "REPLACE_WITH_YOUR_AUTH_DOMAIN",
-  projectId:         "REPLACE_WITH_YOUR_PROJECT_ID",
-  storageBucket:     "REPLACE_WITH_YOUR_STORAGE_BUCKET",
-  messagingSenderId: "REPLACE_WITH_YOUR_MESSAGING_SENDER_ID",
-  appId:             "REPLACE_WITH_YOUR_APP_ID"
+  apiKey:            "AIzaSyA3ogSmoyx1iYohI2zhwFkL3Y41inMKzJI",
+  authDomain:        "sneha-portfolio-46df9.firebaseapp.com",
+  projectId:         "sneha-portfolio-46df9",
+  storageBucket:     "sneha-portfolio-46df9.firebasestorage.app",
+  messagingSenderId: "683201300125",
+  appId:             "1:683201300125:web:63aa52791a5dd96a95f674"
 };
 
 const app = initializeApp(firebaseConfig);
