@@ -306,7 +306,7 @@ export default function PmVikas({ isAdmin }) {
                       <circle
                         cx="70" cy="70" r={R}
                         fill="none"
-                        stroke="#94a3b8"
+                        stroke="#ef4444"
                         strokeWidth="10"
                         strokeLinecap="round"
                         strokeDasharray={`${dashLeave} ${CIRC}`}
@@ -328,7 +328,7 @@ export default function PmVikas({ isAdmin }) {
                       </div>
                       <div className="gauge-divider" />
                       <div className="gauge-num-block">
-                        <span className="gauge-big" style={{color:'#94a3b8'}}>{leaveDays}</span>
+                        <span className="gauge-big" style={{color:'#ef4444'}}>{leaveDays}</span>
                         <span className="gauge-label">Leave</span>
                       </div>
                       <div className="gauge-divider" />
@@ -340,7 +340,7 @@ export default function PmVikas({ isAdmin }) {
                     <div className="gauge-bar-wrap">
                       <div className="gauge-bar-track">
                         <div className="gauge-bar-fill" style={{width: `${pctLogged}%`}} />
-                        <div className="gauge-bar-fill-leave" style={{width: `${pctLeave}%`, background: '#94a3b8'}} />
+                        <div className="gauge-bar-fill-leave" style={{width: `${pctLeave}%`, background: '#ef4444'}} />
                       </div>
                       <span className="gauge-bar-label">{logged} days worked, {leaveDays} days leave (Total: {TOTAL_DAYS})</span>
                     </div>
@@ -651,7 +651,7 @@ export default function PmVikas({ isAdmin }) {
         .leg-dot.internship { background: var(--primary); }
         .leg-dot.project { background: #8b5cf6; }
         .leg-dot.personal { background: #22c55e; }
-        .leg-dot.leave { background: #94a3b8; }
+        .leg-dot.leave { background: #ef4444; }
 
         /* ── DETAIL CARD ── */
         .detail-card { background: #fff; border: 1.5px solid var(--card-border); }
@@ -680,7 +680,7 @@ export default function PmVikas({ isAdmin }) {
         .ev-badge.internship { background: var(--primary-light); color: var(--primary-dark); border: 1px solid rgba(245,166,35,0.3); }
         .ev-badge.project { background: rgba(139,92,246,0.08); color: #7c3aed; border: 1px solid rgba(139,92,246,0.2); }
         .ev-badge.personal { background: rgba(34,197,94,0.08); color: #15803d; border: 1px solid rgba(34,197,94,0.2); }
-        .ev-badge.leave { background: rgba(148,163,184,0.1); color: #64748b; border: 1px solid rgba(148,163,184,0.3); }
+        .ev-badge.leave { background: rgba(239,68,68,0.1); color: #dc2626; border: 1px solid rgba(239,68,68,0.3); }
 
         /* Tracker section header inline btn */
         .fab-inline { margin-left: auto; }
