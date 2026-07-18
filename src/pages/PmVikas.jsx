@@ -260,7 +260,7 @@ export default function PmVikas({ isAdmin }) {
 
           {/* ── PROGRESS GAUGE ── */}
           {(() => {
-            const TOTAL_DAYS = 45;
+            const TOTAL_DAYS = 38;
             const leaveDays = events.filter(e => e.category === 'leave').length;
             const logged = events.length - leaveDays;
             const remaining = Math.max(0, TOTAL_DAYS - logged - leaveDays);
@@ -452,7 +452,7 @@ export default function PmVikas({ isAdmin }) {
                   const dayLabel = evDate.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' }).toUpperCase();
                   return (
                     <div key={ev.id || idx} className="v-node">
-                      <div className="v-dot"><div className="v-dot-inner" /></div>
+                      <div className="v-dot"><div className={`v-dot-inner ${ev.category || 'internship'}`} /></div>
                       <div className="v-content">
                         <span className="v-date">{dayLabel}</span>
                         <div className="glass-card v-card">
@@ -644,7 +644,7 @@ export default function PmVikas({ isAdmin }) {
         .cal-dot.internship { background: var(--primary); }
         .cal-dot.project { background: #8b5cf6; }
         .cal-dot.personal { background: #22c55e; }
-        .cal-dot.leave { background: #ef4444; }
+        .cal-dot.leave, .cal-dot.Leave { background: #ef4444 !important; }
 
         .cal-legend { display: flex; justify-content: center; gap: 12px; margin-top: 12px; font-size: 0.75rem; color: var(--text-muted); }
         .cal-legend span { display: flex; align-items: center; gap: 5px; }
@@ -686,15 +686,17 @@ export default function PmVikas({ isAdmin }) {
         /* Tracker section header inline btn */
         .fab-inline { margin-left: auto; }
 
-        /* ── VERTICAL TIMELINE ── */
+        /* ── TIMELINE ── */
+        .timeline-section { position: relative; margin-top: 40px; }
         .v-timeline { position: relative; padding-left: 30px; margin-top: 20px; }
-        .v-line { position: absolute; left: 9px; top: 8px; bottom: 24px; width: 3px; background: linear-gradient(180deg, var(--primary), #8b5cf6); border-radius: 2px; }
-
-        .v-node { position: relative; margin-bottom: 36px; }
-        .v-node:last-child { margin-bottom: 0; }
-
+        .v-line { position: absolute; left: 10px; top: 10px; bottom: 0; width: 2px; background: var(--card-border); }
+        .v-node { position: relative; margin-bottom: 30px; }
         .v-dot { position: absolute; left: -30px; top: 4px; width: 22px; height: 22px; background: var(--bg); border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; }
-        .v-dot-inner { width: 6px; height: 6px; background: #8b5cf6; border-radius: 50%; }
+        .v-dot-inner { width: 6px; height: 6px; border-radius: 50%; }
+        .v-dot-inner.internship { background: var(--primary); }
+        .v-dot-inner.project { background: #8b5cf6; }
+        .v-dot-inner.personal { background: #22c55e; }
+        .v-dot-inner.leave { background: #ef4444; }
 
         .v-content { display: flex; flex-direction: column; gap: 6px; }
         .v-date { font-size: 0.78rem; font-weight: 700; color: #8b5cf6; letter-spacing: 0.04em; }
@@ -862,14 +864,23 @@ export default function PmVikas({ isAdmin }) {
         .gauge-numbers {
           display: flex;
           align-items: center;
-          gap: 20px;
+          justify-content: space-between;
+          width: 100%;
+          gap: 15px;
           flex-wrap: wrap;
         }
         .gauge-num-block {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 3px;
+          justify-content: center;
+          flex: 1;
+          gap: 4px;
+          background: rgba(255,255,255,0.4);
+          padding: 12px;
+          border-radius: 12px;
+          border: 1px solid rgba(0,0,0,0.03);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.02);
         }
         .gauge-big {
           font-size: 2rem;
@@ -886,10 +897,7 @@ export default function PmVikas({ isAdmin }) {
           text-transform: uppercase;
         }
         .gauge-divider {
-          width: 1px;
-          height: 40px;
-          background: var(--card-border);
-          flex-shrink: 0;
+          display: none;
         }
         .gauge-bar-wrap {
           display: flex;

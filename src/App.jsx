@@ -8,6 +8,7 @@ import { Lock, LogOut, CheckCircle, Menu, X } from 'lucide-react';
 function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLoginInput, setShowLoginInput] = useState(false);
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -15,9 +16,15 @@ function App() {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    if (!showLoginInput) {
+      setShowLoginInput(true);
+      return;
+    }
     if (password === 'sneha@2026') {
       setIsLoggedIn(true);
       setLoginError(false);
+      setShowLoginInput(false);
+      setPassword('');
     } else {
       setLoginError(true);
       setTimeout(() => setLoginError(false), 2000);
@@ -91,19 +98,12 @@ function App() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleLogin} className={`login-form ${loginError ? 'shake-error' : ''}`}>
-                  <div className="input-wrapper">
-                    <Lock size={13} className="input-icon" />
-                    <input
-                      type="password"
-                      placeholder="Admin password..."
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="login-input"
-                    />
-                  </div>
-                  <button type="submit" className="login-btn">Login</button>
-                </form>
+                <button 
+                  onClick={() => setShowLoginInput(true)} 
+                  className="login-btn"
+                >
+                  Login
+                </button>
               )}
             </div>
 
@@ -415,6 +415,59 @@ function App() {
           40%, 80% { transform: translateX(5px); }
         }
 
+        /* Login Modal */
+        .login-modal-overlay {
+          position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(0,0,0,0.4);
+          backdrop-filter: blur(4px);
+          z-index: 1000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .login-modal {
+          background: white;
+          padding: 30px;
+          border-radius: 16px;
+          width: 90%;
+          max-width: 320px;
+          position: relative;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .modal-close {
+          position: absolute;
+          top: 15px; right: 15px;
+          background: none; border: none;
+          color: var(--text-muted);
+          cursor: pointer;
+        }
+        .login-modal h3 {
+          margin-top: 0; margin-bottom: 20px;
+          color: var(--dark);
+          text-align: center;
+          font-family: 'Playfair Display', serif;
+        }
+        .login-modal .login-form {
+          flex-direction: column;
+          align-items: stretch;
+          width: 100%;
+        }
+        .login-modal .input-wrapper {
+          width: 100%;
+        }
+        .login-modal .login-input {
+          width: 100%;
+          padding: 10px 10px 10px 32px;
+          font-size: 1rem;
+        }
+        .login-btn.full-width {
+          width: 100%;
+          justify-content: center;
+          padding: 10px;
+          margin-top: 10px;
+        }
+
         /* Responsive */
         @media (max-width: 900px) {
           .desktop-nav { display: none; }
@@ -426,6 +479,32 @@ function App() {
           .container { padding: 0 16px; }
         }
       `}</style>
+      
+      {/* Login Modal */}
+      {showLoginInput && !isLoggedIn && (
+        <div className="login-modal-overlay">
+          <div className="login-modal">
+            <button className="modal-close" onClick={() => setShowLoginInput(false)}>
+              <X size={20} />
+            </button>
+            <h3>Admin Login</h3>
+            <form onSubmit={handleLogin} className={`login-form ${loginError ? 'shake-error' : ''}`}>
+              <div className="input-wrapper">
+                <Lock size={15} className="input-icon" />
+                <input
+                  type="password"
+                  placeholder="Admin password..."
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="login-input"
+                  autoFocus
+                />
+              </div>
+              <button type="submit" className="login-btn full-width">Login</button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
