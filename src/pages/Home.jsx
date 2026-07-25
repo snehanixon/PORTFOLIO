@@ -34,35 +34,40 @@ export default function Home({ setActiveTab, scrollToProjects, scrollToActivitie
       description: "Built a cross-platform task management app with Material Design UI for Android and iOS using Flutter and Dart. Integrated Firebase Authentication for secure login and Firebase Firestore for real-time cloud data sync across devices. Implemented full CRUD with task prioritisation, completion tracking, and state management via Provider and setState.",
       tech: ["Flutter", "Dart", "Firebase Firestore", "Firebase Auth", "Android/iOS"],
       type: "Mobile App",
-      color: "#F5A623"
+      color: "#F5A623",
+      link: "https://github.com/snehanixon"
     },
     {
       title: "PicCheck — AI Image Detector",
       description: "Developed an AI-powered browser extension identifying AI-generated vs authentic images in real time. Fine-tuned MobileNetV2 on the CiFAKE dataset via transfer learning; implemented a lightweight browser-optimised inference pipeline. Integrated ML predictions into a user-friendly browser interface providing instant visual feedback.",
       tech: ["Python", "MobileNetV2", "TensorFlow/Keras", "CiFAKE", "Browser Extension"],
       type: "AI/ML",
-      color: "#1A1A1A"
+      color: "#1A1A1A",
+      link: "https://github.com/snehanixon"
     },
     {
       title: "Civic Reporting Management System",
       description: "Built a web-based civic grievance platform enabling citizens to report and track public infrastructure issues. Designed Flask backend with RESTful APIs and MySQL storage; created separate dashboards for citizens and authorities. Implemented full complaint lifecycle: submission, status updates, verification, and closure.",
       tech: ["HTML/CSS", "JavaScript", "Python Flask", "MySQL", "RESTful APIs"],
       type: "Web App",
-      color: "#F5A623"
+      color: "#F5A623",
+      link: "https://github.com/snehanixon"
     },
     {
       title: "Arduino Car Parking System",
       description: "Designed a smart parking system with ultrasonic sensors for real-time vehicle detection and slot occupancy monitoring. Developed a live display showing available parking slots to drivers; enhanced skills in sensor interfacing and embedded logic.",
       tech: ["Arduino Uno", "Ultrasonic Sensors", "Embedded C"],
       type: "Embedded System",
-      color: "#1A1A1A"
+      color: "#1A1A1A",
+      link: "https://github.com/snehanixon"
     },
     {
       title: "Automated Waste Segregation System",
       description: "Built an automated classifier distinguishing wet/dry waste using ultrasonic and soil moisture sensors with servo-motor sorting.",
       tech: ["Arduino Uno", "Ultrasonic Sensor", "Soil Moisture Sensor", "Servo Motor", "Embedded C"],
       type: "Embedded System",
-      color: "#F5A623"
+      color: "#F5A623",
+      link: "https://github.com/snehanixon"
     }
   ];
 
@@ -215,7 +220,7 @@ export default function Home({ setActiveTab, scrollToProjects, scrollToActivitie
 
           <div className="projects-grid">
             {projects.map((proj, idx) => (
-              <div className="project-card" key={idx}>
+              <a href={proj.link} target="_blank" rel="noreferrer" className="project-card" style={{ textDecoration: 'none' }} key={idx}>
                 <div className="project-card-top" style={{ background: proj.color }}>
                   <span className="proj-type">{proj.type}</span>
                 </div>
@@ -228,7 +233,7 @@ export default function Home({ setActiveTab, scrollToProjects, scrollToActivitie
                     ))}
                   </div>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

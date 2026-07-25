@@ -254,13 +254,19 @@ export default function PmVikas({ isAdmin }) {
                   <li><strong>IoT Protocols:</strong> Serial, HTTP REST APIs, and MQTT brokers.</li>
                   <li><strong>Real-world Prototypes:</strong> Automated waste segregation and smart parking.</li>
                 </ul>
+                <div className="info-sub-header" style={{ marginTop: '24px' }}><Cpu className="info-icon-small" size={18} /><h3>PM-VIKAS Projects</h3></div>
+                <div className="pv-projects-list">
+                  <a href="https://github.com/snehanixon/TINKERCARD" target="_blank" rel="noreferrer" className="pv-project-link">TINKERCARD</a>
+                  <a href="https://github.com/snehanixon/GoLang-Service" target="_blank" rel="noreferrer" className="pv-project-link">GoLang-Service</a>
+                  <a href="https://github.com/snehanixon/Docker-Services" target="_blank" rel="noreferrer" className="pv-project-link">Docker-Services</a>
+                </div>
               </div>
             </div>
           </div>
 
           {/* ── PROGRESS GAUGE ── */}
           {(() => {
-            const TOTAL_DAYS = 38;
+            const TOTAL_DAYS = 45;
             const leaveDays = events.filter(e => e.category === 'leave').length;
             const logged = events.length - leaveDays;
             const remaining = Math.max(0, TOTAL_DAYS - logged - leaveDays);
@@ -578,6 +584,20 @@ export default function PmVikas({ isAdmin }) {
         .skills-list li { position: relative; padding-left: 18px; color: var(--text-muted); font-size: 0.9rem; }
         .skills-list li::before { content:"•"; color: var(--primary); position: absolute; left: 4px; font-weight: bold; }
 
+        .pv-projects-list {
+          display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px;
+        }
+        .pv-project-link {
+          background: var(--bg-card-alt); border: 1.5px solid var(--primary);
+          color: var(--primary-dark); padding: 5px 14px; border-radius: 50px;
+          font-size: 0.8rem; font-weight: 700; text-decoration: none;
+          transition: var(--transition);
+        }
+        .pv-project-link:hover {
+          background: var(--primary); color: #fff; transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(245,166,35,0.25);
+        }
+
         /* Tracker section header */
         .tracker-section-header {
           display: flex; align-items: center; gap: 10px;
@@ -864,23 +884,14 @@ export default function PmVikas({ isAdmin }) {
         .gauge-numbers {
           display: flex;
           align-items: center;
-          justify-content: space-between;
-          width: 100%;
-          gap: 15px;
+          gap: 20px;
           flex-wrap: wrap;
         }
         .gauge-num-block {
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
-          flex: 1;
-          gap: 4px;
-          background: rgba(255,255,255,0.4);
-          padding: 12px;
-          border-radius: 12px;
-          border: 1px solid rgba(0,0,0,0.03);
-          box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+          gap: 3px;
         }
         .gauge-big {
           font-size: 2rem;
@@ -897,7 +908,10 @@ export default function PmVikas({ isAdmin }) {
           text-transform: uppercase;
         }
         .gauge-divider {
-          display: none;
+          width: 1px;
+          height: 40px;
+          background: var(--card-border);
+          flex-shrink: 0;
         }
         .gauge-bar-wrap {
           display: flex;
