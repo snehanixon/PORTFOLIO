@@ -86,13 +86,13 @@ export default function Home({ setActiveTab, scrollToProjects, scrollToActivitie
   ];
 
   const activities = [
-    { img: activity1, label: "Rajagiri Conclave Confluence 2.0 (Hackathon Participation)" },
-    { img: activity2, label: "3rd Prize Winner at Christ College of Engineering Expo" },
-    { img: activity3, label: "Collaborative Coding Workshop & Project Sprint Sessions" },
-    { img: activity4, label: "IoT / VR Development Training Session at Christ College" },
-    { img: activity5, label: "CSE Undergraduate Cohort Class Photo" },
-    { img: activity6, label: "Coding Hackathon Team Collaborative Workshop" },
-    { img: activity7, label: "Team Presentation & Civic Platform Demo Showcase" }
+    { img: activity1, label: "Rajagiri Conclave Confluence 2.0 (Hackathon Participation)", link: "https://linkedin.com/in/sneha-nixon1" },
+    { img: activity2, label: "3rd Prize Winner at Christ College of Engineering Expo", link: "https://linkedin.com/in/sneha-nixon1" },
+    { img: activity3, label: "Collaborative Coding Workshop & Project Sprint Sessions", link: "https://linkedin.com/in/sneha-nixon1" },
+    { img: activity4, label: "IoT / VR Development Training Session at Christ College", link: "https://linkedin.com/in/sneha-nixon1" },
+    { img: activity5, label: "CSE Undergraduate Cohort Class Photo", link: "https://linkedin.com/in/sneha-nixon1" },
+    { img: activity6, label: "Coding Hackathon Team Collaborative Workshop", link: "https://linkedin.com/in/sneha-nixon1" },
+    { img: activity7, label: "Team Presentation & Civic Platform Demo Showcase", link: "https://linkedin.com/in/sneha-nixon1" }
   ];
 
   return (
@@ -255,23 +255,23 @@ export default function Home({ setActiveTab, scrollToProjects, scrollToActivitie
             {/* Slide group 1 */}
             {activities.map((act, i) => (
               <div className="ticker-item" key={`slide1-${i}`}>
-                <div className="ticker-img-frame">
+                <a href={act.link} target="_blank" rel="noreferrer" className="ticker-img-frame" style={{ display: 'block' }}>
                   <img src={act.img} alt={act.label} />
                   <div className="ticker-overlay">
                     <span>{act.label}</span>
                   </div>
-                </div>
+                </a>
               </div>
             ))}
             {/* Slide group 2 (duplicate for seamless loop) */}
             {activities.map((act, i) => (
               <div className="ticker-item" key={`slide2-${i}`}>
-                <div className="ticker-img-frame">
+                <a href={act.link} target="_blank" rel="noreferrer" className="ticker-img-frame" style={{ display: 'block' }}>
                   <img src={act.img} alt={act.label} />
                   <div className="ticker-overlay">
                     <span>{act.label}</span>
                   </div>
-                </div>
+                </a>
               </div>
             ))}
           </div>

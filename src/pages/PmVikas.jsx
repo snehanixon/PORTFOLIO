@@ -254,13 +254,19 @@ export default function PmVikas({ isAdmin }) {
                   <li><strong>IoT Protocols:</strong> Serial, HTTP REST APIs, and MQTT brokers.</li>
                   <li><strong>Real-world Prototypes:</strong> Automated waste segregation and smart parking.</li>
                 </ul>
-                <div className="info-sub-header" style={{ marginTop: '24px' }}><Cpu className="info-icon-small" size={18} /><h3>PM-VIKAS Projects</h3></div>
-                <div className="pv-projects-list">
-                  <a href="https://github.com/snehanixon/TINKERCARD" target="_blank" rel="noreferrer" className="pv-project-link">TINKERCARD</a>
-                  <a href="https://github.com/snehanixon/GoLang-Service" target="_blank" rel="noreferrer" className="pv-project-link">GoLang-Service</a>
-                  <a href="https://github.com/snehanixon/Docker-Services" target="_blank" rel="noreferrer" className="pv-project-link">Docker-Services</a>
-                </div>
               </div>
+            </div>
+          </div>
+
+          {/* ── PROJECTS CARD ── */}
+          <div className="projects-card glass-card" style={{ marginBottom: '40px', padding: '24px 32px' }}>
+            <div className="info-header"><Cpu className="info-icon" size={22} /><h2>PM-VIKAS Projects</h2></div>
+            <p className="info-desc" style={{ marginBottom: '16px' }}>Repositories and projects completed during the PM-VIKAS internship.</p>
+            <div className="pv-projects-list" style={{ marginTop: '0' }}>
+              <a href="https://github.com/snehanixon/TINKERCARD" target="_blank" rel="noreferrer" className="pv-project-link">TINKERCARD</a>
+              <a href="https://github.com/snehanixon/GoLang-Service" target="_blank" rel="noreferrer" className="pv-project-link">GoLang-Service</a>
+              <a href="https://github.com/snehanixon/Docker-Services" target="_blank" rel="noreferrer" className="pv-project-link">Docker-Services</a>
+              <a href="https://github.com/snehanixon/wokwi" target="_blank" rel="noreferrer" className="pv-project-link">wokwi</a>
             </div>
           </div>
 
