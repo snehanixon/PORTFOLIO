@@ -48,7 +48,7 @@ function App() {
   const handleNavClick = (key) => {
     setActiveTab(key);
     setMobileMenuOpen(false);
-    if (key === 'home') {
+    if (key === 'home' || key === 'experience' || key === 'certifications' || key === 'pmvikas') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (key === 'projects' || key === 'activities') {
       setActiveTab('home');
