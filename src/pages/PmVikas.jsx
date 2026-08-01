@@ -265,7 +265,36 @@ export default function PmVikas({ isAdmin }) {
           <div className="projects-card glass-card" style={{ marginBottom: '40px', padding: '24px 32px' }}>
             <div className="info-header"><Cpu className="info-icon" size={22} /><h2>PM-VIKAS Projects</h2></div>
             <p className="info-desc" style={{ marginBottom: '24px' }}>Projects I built and contributed to during the PM-VIKAS internship at IIIT Kottayam — click to view on GitHub.</p>
-            <div className="pv-rich-projects-grid">
+
+            {/* ⭐ Mini Project Highlight */}
+            <a
+              href="https://github.com/snehanixon/TINKERCARD/tree/main/Mini-Project"
+              target="_blank"
+              rel="noreferrer"
+              className="pv-mini-project-card"
+            >
+              <div className="pv-mini-badge">⭐ Mini Project</div>
+              <div className="pv-mini-content">
+                <div className="pv-mini-icon-wrap">
+                  <Cpu size={30} style={{ color: '#F5A623' }} />
+                </div>
+                <div>
+                  <h3 className="pv-mini-title">Smart Home Automation System</h3>
+                  <p className="pv-mini-desc">
+                    Designed a complete Smart Home Automation System in TinkerCAD using <strong>5 sensors</strong> (temperature, motion, light, gas, ultrasonic) and <strong>5 actuators</strong> (LEDs, motor, buzzer, relay, servo). Simulates real-world smart home control and safety.
+                  </p>
+                  <div className="pv-mini-tags">
+                    <span className="pv-mini-tag">TinkerCAD</span>
+                    <span className="pv-mini-tag">IoT</span>
+                    <span className="pv-mini-tag">5 Sensors</span>
+                    <span className="pv-mini-tag">5 Actuators</span>
+                    <span className="pv-mini-tag">Home Automation</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+
+            <div className="pv-rich-projects-grid" style={{ marginTop: '16px' }}>
               <a href="https://github.com/snehanixon/TINKERCARD" target="_blank" rel="noreferrer" className="pv-rich-card">
                 <Cpu size={24} className="pv-rich-icon" style={{ color: '#F5A623', marginBottom: '12px' }} />
                 <h4 style={{ color: 'var(--text)', marginBottom: '6px' }}>TINKERCARD</h4>
@@ -610,6 +639,51 @@ export default function PmVikas({ isAdmin }) {
         .skills-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
         .skills-list li { position: relative; padding-left: 18px; color: var(--text-muted); font-size: 0.9rem; }
         .skills-list li::before { content:"•"; color: var(--primary); position: absolute; left: 4px; font-weight: bold; }
+
+        /* Mini Project Highlight Card */
+        .pv-mini-project-card {
+          display: block; text-decoration: none; position: relative;
+          border: 2px solid #F5A623;
+          border-radius: 16px; padding: 20px 24px;
+          margin-bottom: 4px;
+          background: linear-gradient(135deg, rgba(245,166,35,0.08) 0%, rgba(139,92,246,0.05) 100%);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 4px 20px rgba(245,166,35,0.12);
+        }
+        .pv-mini-project-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 32px rgba(245,166,35,0.25);
+          background: linear-gradient(135deg, rgba(245,166,35,0.14) 0%, rgba(139,92,246,0.08) 100%);
+        }
+        .pv-mini-badge {
+          display: inline-block; background: linear-gradient(135deg, #F5A623, #f97316);
+          color: #fff; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.06em;
+          padding: 4px 12px; border-radius: 50px; margin-bottom: 14px;
+          text-transform: uppercase;
+        }
+        .pv-mini-content {
+          display: flex; align-items: flex-start; gap: 18px;
+        }
+        .pv-mini-icon-wrap {
+          background: rgba(245,166,35,0.12); border-radius: 12px;
+          padding: 12px; flex-shrink: 0;
+        }
+        .pv-mini-title {
+          font-size: 1.05rem; font-weight: 800; color: var(--text);
+          margin: 0 0 8px 0;
+        }
+        .pv-mini-desc {
+          font-size: 0.87rem; color: var(--text-muted); margin: 0 0 12px 0; line-height: 1.6;
+        }
+        .pv-mini-desc strong { color: var(--text); }
+        .pv-mini-tags {
+          display: flex; flex-wrap: wrap; gap: 6px;
+        }
+        .pv-mini-tag {
+          background: rgba(245,166,35,0.12); border: 1px solid rgba(245,166,35,0.35);
+          color: #b45309; font-size: 0.75rem; font-weight: 700;
+          padding: 3px 10px; border-radius: 50px;
+        }
 
         .pv-rich-projects-grid {
           display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;
