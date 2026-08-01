@@ -281,14 +281,14 @@ export default function PmVikas({ isAdmin }) {
                 <div>
                   <h3 className="pv-mini-title">Smart Home Automation System</h3>
                   <p className="pv-mini-desc">
-                    Designed a complete Smart Home Automation System in TinkerCAD using <strong>5 sensors</strong> (temperature, motion, light, gas, ultrasonic) and <strong>5 actuators</strong> (LEDs, motor, buzzer, relay, servo). Simulates real-world smart home control and safety.
+                    An Arduino-based mini project developed in Tinkercad that automates basic home functions using <strong>5 sensors</strong> (LDR, LM35, PIR sensor, ultrasonic sensor, push button) and <strong>5 actuators</strong> (LED, RGB LED, buzzer, servo motor, LCD). Monitors ambient light, temperature, motion, and distance to automatically control room lighting, door operation, alerts, and display messages.
                   </p>
                   <div className="pv-mini-tags">
                     <span className="pv-mini-tag">TinkerCAD</span>
-                    <span className="pv-mini-tag">IoT</span>
-                    <span className="pv-mini-tag">5 Sensors</span>
-                    <span className="pv-mini-tag">5 Actuators</span>
-                    <span className="pv-mini-tag">Home Automation</span>
+                    <span className="pv-mini-tag">Arduino</span>
+                    <span className="pv-mini-tag">LDR · LM35 · PIR</span>
+                    <span className="pv-mini-tag">Ultrasonic · Push Button</span>
+                    <span className="pv-mini-tag">Servo · LCD · Buzzer</span>
                   </div>
                 </div>
               </div>

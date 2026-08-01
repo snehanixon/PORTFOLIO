@@ -68,12 +68,20 @@ export default function Home({ setActiveTab, scrollToProjects, scrollToActivitie
       type: "Embedded System",
       color: "#F5A623",
       link: "https://github.com/snehanixon"
+    },
+    {
+      title: "Smart Home Automation System",
+      description: "An Arduino-based mini project developed in Tinkercad that automates basic home functions. Monitors ambient light, temperature, motion, object distance, and user input through an LDR, LM35, PIR sensor, ultrasonic sensor, and push button. Automatically controls an LED for room lighting, an RGB LED for temperature indication, a buzzer for motion alerts, a servo motor for automatic door operation, and an LCD to display welcome messages.",
+      tech: ["TinkerCAD", "Arduino", "LDR", "LM35", "PIR Sensor", "Ultrasonic Sensor", "Servo Motor", "LCD"],
+      type: "IoT / Internship",
+      color: "#8b5cf6",
+      link: "https://github.com/snehanixon/TINKERCARD/tree/main/Mini-Project"
     }
   ];
 
   const stats = [
     { value: "9.0", label: "CGPA" },
-    { value: "5", label: "Projects" },
+    { value: "6", label: "Projects" },
     { value: "7", label: "Certifications" },
     { value: "3+", label: "Awards" },
   ];
