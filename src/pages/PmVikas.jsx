@@ -268,7 +268,7 @@ export default function PmVikas({ isAdmin }) {
 
             {/* ⭐ Mini Project Highlight */}
             <a
-              href="https://github.com/snehanixon/TINKERCAD/tree/main/Mini-Project"
+              href="https://github.com/snehanixon/TINKERCARD/tree/main/Mini-Project"
               target="_blank"
               rel="noreferrer"
               className="pv-mini-project-card"
@@ -295,7 +295,7 @@ export default function PmVikas({ isAdmin }) {
             </a>
 
             <div className="pv-rich-projects-grid" style={{ marginTop: '16px' }}>
-              <a href="https://github.com/snehanixon/TINKERCAD" target="_blank" rel="noreferrer" className="pv-rich-card">
+              <a href="https://github.com/snehanixon/TINKERCARD" target="_blank" rel="noreferrer" className="pv-rich-card">
                 <Cpu size={24} className="pv-rich-icon" style={{ color: '#F5A623', marginBottom: '12px' }} />
                 <h4 style={{ color: 'var(--text)', marginBottom: '6px' }}>TINKERCAD</h4>
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Designed and simulated IoT circuits using TinkerCAD for embedded hardware prototyping.</p>
