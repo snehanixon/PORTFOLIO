@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Calendar as CalendarIcon, Cpu, Settings, Cloud, Plus, Trash2, Edit, AlertCircle, CheckCircle2, ChevronLeft, ChevronRight, X, BookOpen } from 'lucide-react';
+import { Calendar as CalendarIcon, Cpu, Settings, Cloud, Plus, Trash2, Edit, AlertCircle, CheckCircle2, ChevronLeft, ChevronRight, X, BookOpen, ImageIcon } from 'lucide-react';
 import { loadActivities, saveActivities } from '../firebase';
+import img1 from '../assets/activity4.jpg';
+import img2 from '../assets/activity5.jpg';
+import img3 from '../assets/activity6.jpg';
 
 export default function PmVikas({ isAdmin }) {
   const [events, setEvents] = useState([]);
@@ -261,24 +264,62 @@ export default function PmVikas({ isAdmin }) {
           {/* ── PROJECTS CARD ── */}
           <div className="projects-card glass-card" style={{ marginBottom: '40px', padding: '24px 32px' }}>
             <div className="info-header"><Cpu className="info-icon" size={22} /><h2>PM-VIKAS Projects</h2></div>
-            <p className="info-desc" style={{ marginBottom: '16px' }}>Repositories and projects completed during the PM-VIKAS internship.</p>
-            <div className="pv-projects-list" style={{ marginTop: '0' }}>
-              <a href="https://github.com/snehanixon/TINKERCARD" target="_blank" rel="noreferrer" className="pv-project-link">TINKERCARD</a>
-              <a href="https://github.com/snehanixon/GoLang-Service" target="_blank" rel="noreferrer" className="pv-project-link">GoLang-Service</a>
-              <a href="https://github.com/snehanixon/Docker-Services" target="_blank" rel="noreferrer" className="pv-project-link">Docker-Services</a>
-              <a href="https://github.com/snehanixon/wokwi" target="_blank" rel="noreferrer" className="pv-project-link">wokwi</a>
+            <p className="info-desc" style={{ marginBottom: '24px' }}>Repositories and projects completed during the PM-VIKAS internship.</p>
+            <div className="pv-rich-projects-grid">
+              <a href="https://github.com/snehanixon/TINKERCARD" target="_blank" rel="noreferrer" className="pv-rich-card">
+                <Cpu size={24} className="pv-rich-icon" style={{ color: '#F5A623', marginBottom: '12px' }} />
+                <h4 style={{ color: 'var(--text)', marginBottom: '6px' }}>TINKERCARD</h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Circuit simulation and prototyping.</p>
+              </a>
+              <a href="https://github.com/snehanixon/GoLang-Service" target="_blank" rel="noreferrer" className="pv-rich-card">
+                <Settings size={24} className="pv-rich-icon" style={{ color: '#8b5cf6', marginBottom: '12px' }} />
+                <h4 style={{ color: 'var(--text)', marginBottom: '6px' }}>GoLang-Service</h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Backend REST API services developed in Go.</p>
+              </a>
+              <a href="https://github.com/snehanixon/Docker-Services" target="_blank" rel="noreferrer" className="pv-rich-card">
+                <Cloud size={24} className="pv-rich-icon" style={{ color: '#22c55e', marginBottom: '12px' }} />
+                <h4 style={{ color: 'var(--text)', marginBottom: '6px' }}>Docker-Services</h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Containerized deployment configurations.</p>
+              </a>
+              <a href="https://github.com/snehanixon/wokwi" target="_blank" rel="noreferrer" className="pv-rich-card">
+                <Cpu size={24} className="pv-rich-icon" style={{ color: '#ef4444', marginBottom: '12px' }} />
+                <h4 style={{ color: 'var(--text)', marginBottom: '6px' }}>wokwi</h4>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Advanced IoT and embedded system simulations.</p>
+              </a>
+            </div>
+          </div>
+
+          {/* ── PHOTO GALLERY ── */}
+          <div className="gallery-card glass-card" style={{ marginBottom: '40px', padding: '24px 32px' }}>
+            <div className="info-header"><ImageIcon className="info-icon" size={22} /><h2>Internship Gallery</h2></div>
+            <p className="info-desc" style={{ marginBottom: '20px' }}>Snapshots from the PM-VIKAS program at IIIT Kottayam. (Replace these placeholder images in src/assets!)</p>
+            <div className="pv-gallery-grid">
+              <div className="pv-gallery-item">
+                <img src={img1} alt="Internship Activity 1" />
+              </div>
+              <div className="pv-gallery-item">
+                <img src={img2} alt="Internship Activity 2" />
+              </div>
+              <div className="pv-gallery-item">
+                <img src={img3} alt="Internship Activity 3" />
+              </div>
             </div>
           </div>
 
           {/* ── PROGRESS GAUGE ── */}
           {(() => {
-            const TOTAL_DAYS = 45;
-            const leaveDays = events.filter(e => e.category === 'leave').length;
-            const logged = events.length - leaveDays;
-            const remaining = Math.max(0, TOTAL_DAYS - logged - leaveDays);
+            const TOTAL_HOURS = 300;
+            const HOURS_PER_DAY = 8;
             
-            const pctLogged = Math.min(100, (logged / TOTAL_DAYS) * 100);
-            const pctLeave = Math.min(100, (leaveDays / TOTAL_DAYS) * 100);
+            const leaveDays = events.filter(e => e.category === 'leave').length;
+            const workedDays = events.length - leaveDays;
+            
+            const workedHours = workedDays * HOURS_PER_DAY;
+            const leaveHours = leaveDays * HOURS_PER_DAY;
+            const remainingHours = Math.max(0, TOTAL_HOURS - workedHours);
+            
+            const pctLogged = Math.min(100, (workedHours / TOTAL_HOURS) * 100);
+            const pctLeave = Math.min(100 - pctLogged, (leaveHours / TOTAL_HOURS) * 100);
             
             const R = 54;
             const CIRC = 2 * Math.PI * R;
@@ -335,17 +376,17 @@ export default function PmVikas({ isAdmin }) {
                     <div className="gauge-title">Program Progress</div>
                     <div className="gauge-numbers">
                       <div className="gauge-num-block">
-                        <span className="gauge-big">{logged}</span>
+                        <span className="gauge-big">{workedHours}h</span>
                         <span className="gauge-label">Worked</span>
                       </div>
                       <div className="gauge-divider" />
                       <div className="gauge-num-block">
-                        <span className="gauge-big" style={{color:'#ef4444'}}>{leaveDays}</span>
+                        <span className="gauge-big" style={{color:'#ef4444'}}>{leaveDays}d</span>
                         <span className="gauge-label">Leave</span>
                       </div>
                       <div className="gauge-divider" />
                       <div className="gauge-num-block">
-                        <span className="gauge-big" style={{color:'#8b5cf6'}}>{remaining}</span>
+                        <span className="gauge-big" style={{color:'#8b5cf6'}}>{remainingHours}h</span>
                         <span className="gauge-label">Remaining</span>
                       </div>
                     </div>
@@ -354,7 +395,7 @@ export default function PmVikas({ isAdmin }) {
                         <div className="gauge-bar-fill" style={{width: `${pctLogged}%`}} />
                         <div className="gauge-bar-fill-leave" style={{width: `${pctLeave}%`, background: '#ef4444'}} />
                       </div>
-                      <span className="gauge-bar-label">{logged} days worked, {leaveDays} days leave (Total: {TOTAL_DAYS})</span>
+                      <span className="gauge-bar-label">{workedHours} hours worked ({workedDays} days), {leaveDays} days leave (Total req: {TOTAL_HOURS}h)</span>
                     </div>
                   </div>
                 </div>
@@ -590,19 +631,31 @@ export default function PmVikas({ isAdmin }) {
         .skills-list li { position: relative; padding-left: 18px; color: var(--text-muted); font-size: 0.9rem; }
         .skills-list li::before { content:"•"; color: var(--primary); position: absolute; left: 4px; font-weight: bold; }
 
-        .pv-projects-list {
-          display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px;
+        .pv-rich-projects-grid {
+          display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;
         }
-        .pv-project-link {
-          background: var(--bg-card-alt); border: 1.5px solid var(--primary);
-          color: var(--primary-dark); padding: 5px 14px; border-radius: 50px;
-          font-size: 0.8rem; font-weight: 700; text-decoration: none;
-          transition: var(--transition);
+        .pv-rich-card {
+          background: var(--bg-card-alt);
+          border: 1.5px solid var(--card-border);
+          border-radius: 12px; padding: 20px;
+          display: flex; flex-direction: column;
+          text-decoration: none;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .pv-project-link:hover {
-          background: var(--primary); color: #fff; transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(245,166,35,0.25);
+        .pv-rich-card:hover {
+          background: #fff; border-color: var(--primary);
+          transform: translateY(-4px); box-shadow: 0 10px 25px rgba(245, 166, 35, 0.15);
         }
+
+        .pv-gallery-grid {
+          display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;
+        }
+        .pv-gallery-item {
+          border-radius: 12px; overflow: hidden; aspect-ratio: 4/3;
+          border: 1.5px solid var(--card-border); transition: transform 0.3s ease;
+        }
+        .pv-gallery-item:hover { transform: scale(1.02); box-shadow: var(--shadow-sm); }
+        .pv-gallery-item img { width: 100%; height: 100%; object-fit: cover; }
 
         /* Tracker section header */
         .tracker-section-header {
