@@ -289,26 +289,9 @@ export default function PmVikas({ isAdmin }) {
             </div>
           </div>
 
-          {/* ── PHOTO GALLERY ── */}
-          <div className="gallery-card glass-card" style={{ marginBottom: '40px', padding: '24px 32px' }}>
-            <div className="info-header"><ImageIcon className="info-icon" size={22} /><h2>Internship Gallery</h2></div>
-            <p className="info-desc" style={{ marginBottom: '20px' }}>Snapshots from the PM-VIKAS program at IIIT Kottayam. (Replace these placeholder images in src/assets!)</p>
-            <div className="pv-gallery-grid">
-              <div className="pv-gallery-item">
-                <img src={img1} alt="Internship Activity 1" />
-              </div>
-              <div className="pv-gallery-item">
-                <img src={img2} alt="Internship Activity 2" />
-              </div>
-              <div className="pv-gallery-item">
-                <img src={img3} alt="Internship Activity 3" />
-              </div>
-            </div>
-          </div>
-
           {/* ── PROGRESS GAUGE ── */}
           {(() => {
-            const TOTAL_DAYS = 37.5; // 300 hours / 8 hours per day
+            const TOTAL_DAYS = 37; // 300 hours / 8 hours per day, rounded to 37
             
             const leaveDays = events.filter(e => e.category === 'leave').length;
             const workedDays = events.length - leaveDays;
@@ -643,16 +626,6 @@ export default function PmVikas({ isAdmin }) {
           background: #fff; border-color: var(--primary);
           transform: translateY(-4px); box-shadow: 0 10px 25px rgba(245, 166, 35, 0.15);
         }
-
-        .pv-gallery-grid {
-          display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;
-        }
-        .pv-gallery-item {
-          border-radius: 12px; overflow: hidden; aspect-ratio: 4/3;
-          border: 1.5px solid var(--card-border); transition: transform 0.3s ease;
-        }
-        .pv-gallery-item:hover { transform: scale(1.02); box-shadow: var(--shadow-sm); }
-        .pv-gallery-item img { width: 100%; height: 100%; object-fit: cover; }
 
         /* Tracker section header */
         .tracker-section-header {
