@@ -308,18 +308,15 @@ export default function PmVikas({ isAdmin }) {
 
           {/* ── PROGRESS GAUGE ── */}
           {(() => {
-            const TOTAL_HOURS = 300;
-            const HOURS_PER_DAY = 8;
+            const TOTAL_DAYS = 37.5; // 300 hours / 8 hours per day
             
             const leaveDays = events.filter(e => e.category === 'leave').length;
             const workedDays = events.length - leaveDays;
             
-            const workedHours = workedDays * HOURS_PER_DAY;
-            const leaveHours = leaveDays * HOURS_PER_DAY;
-            const remainingHours = Math.max(0, TOTAL_HOURS - workedHours);
+            const remainingDays = Math.max(0, TOTAL_DAYS - workedDays);
             
-            const pctLogged = Math.min(100, (workedHours / TOTAL_HOURS) * 100);
-            const pctLeave = Math.min(100 - pctLogged, (leaveHours / TOTAL_HOURS) * 100);
+            const pctLogged = Math.min(100, (workedDays / TOTAL_DAYS) * 100);
+            const pctLeave = Math.min(100 - pctLogged, (leaveDays / TOTAL_DAYS) * 100);
             
             const R = 54;
             const CIRC = 2 * Math.PI * R;
@@ -376,17 +373,17 @@ export default function PmVikas({ isAdmin }) {
                     <div className="gauge-title">Program Progress</div>
                     <div className="gauge-numbers">
                       <div className="gauge-num-block">
-                        <span className="gauge-big">{workedHours}h</span>
+                        <span className="gauge-big">{workedDays}</span>
                         <span className="gauge-label">Worked</span>
                       </div>
                       <div className="gauge-divider" />
                       <div className="gauge-num-block">
-                        <span className="gauge-big" style={{color:'#ef4444'}}>{leaveDays}d</span>
+                        <span className="gauge-big" style={{color:'#ef4444'}}>{leaveDays}</span>
                         <span className="gauge-label">Leave</span>
                       </div>
                       <div className="gauge-divider" />
                       <div className="gauge-num-block">
-                        <span className="gauge-big" style={{color:'#8b5cf6'}}>{remainingHours}h</span>
+                        <span className="gauge-big" style={{color:'#8b5cf6'}}>{remainingDays}</span>
                         <span className="gauge-label">Remaining</span>
                       </div>
                     </div>
@@ -395,7 +392,7 @@ export default function PmVikas({ isAdmin }) {
                         <div className="gauge-bar-fill" style={{width: `${pctLogged}%`}} />
                         <div className="gauge-bar-fill-leave" style={{width: `${pctLeave}%`, background: '#ef4444'}} />
                       </div>
-                      <span className="gauge-bar-label">{workedHours} hours worked ({workedDays} days), {leaveDays} days leave (Total req: {TOTAL_HOURS}h)</span>
+                      <span className="gauge-bar-label">{workedDays} days worked, {leaveDays} days leave (Total req: {TOTAL_DAYS} days)</span>
                     </div>
                   </div>
                 </div>
