@@ -264,39 +264,39 @@ export default function PmVikas({ isAdmin }) {
           {/* ── PROJECTS CARD ── */}
           <div className="projects-card glass-card" style={{ marginBottom: '40px', padding: '24px 32px' }}>
             <div className="info-header"><Cpu className="info-icon" size={22} /><h2>PM-VIKAS Projects</h2></div>
-            <p className="info-desc" style={{ marginBottom: '24px' }}>Repositories and projects completed during the PM-VIKAS internship.</p>
+            <p className="info-desc" style={{ marginBottom: '24px' }}>Projects I built and contributed to during the PM-VIKAS internship at IIIT Kottayam — click to view on GitHub.</p>
             <div className="pv-rich-projects-grid">
               <a href="https://github.com/snehanixon/TINKERCARD" target="_blank" rel="noreferrer" className="pv-rich-card">
                 <Cpu size={24} className="pv-rich-icon" style={{ color: '#F5A623', marginBottom: '12px' }} />
                 <h4 style={{ color: 'var(--text)', marginBottom: '6px' }}>TINKERCARD</h4>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Circuit simulation and prototyping.</p>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Designed and simulated IoT circuits using TinkerCAD for embedded hardware prototyping.</p>
               </a>
               <a href="https://github.com/snehanixon/GoLang-Service" target="_blank" rel="noreferrer" className="pv-rich-card">
                 <Settings size={24} className="pv-rich-icon" style={{ color: '#8b5cf6', marginBottom: '12px' }} />
                 <h4 style={{ color: 'var(--text)', marginBottom: '6px' }}>GoLang-Service</h4>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Backend REST API services developed in Go.</p>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Built lightweight backend REST API microservices using the Go programming language.</p>
               </a>
               <a href="https://github.com/snehanixon/Docker-Services" target="_blank" rel="noreferrer" className="pv-rich-card">
                 <Cloud size={24} className="pv-rich-icon" style={{ color: '#22c55e', marginBottom: '12px' }} />
                 <h4 style={{ color: 'var(--text)', marginBottom: '6px' }}>Docker-Services</h4>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Containerized deployment configurations.</p>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Containerized services and set up deployment pipelines using Docker.</p>
               </a>
               <a href="https://github.com/snehanixon/wokwi" target="_blank" rel="noreferrer" className="pv-rich-card">
                 <Cpu size={24} className="pv-rich-icon" style={{ color: '#ef4444', marginBottom: '12px' }} />
                 <h4 style={{ color: 'var(--text)', marginBottom: '6px' }}>wokwi</h4>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Advanced IoT and embedded system simulations.</p>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Simulated and tested embedded systems and IoT projects using the Wokwi platform.</p>
               </a>
             </div>
           </div>
 
           {/* ── PROGRESS GAUGE ── */}
           {(() => {
-            const TOTAL_DAYS = 37; // 300 hours / 8 hours per day, rounded to 37
+            const TOTAL_DAYS = 38; // 300 hours / 8 hours per day
             
             const leaveDays = events.filter(e => e.category === 'leave').length;
             const workedDays = events.length - leaveDays;
             
-            const remainingDays = Math.max(0, TOTAL_DAYS - workedDays);
+            const remainingDays = Math.max(0, TOTAL_DAYS - workedDays - leaveDays);
             
             const pctLogged = Math.min(100, (workedDays / TOTAL_DAYS) * 100);
             const pctLeave = Math.min(100 - pctLogged, (leaveDays / TOTAL_DAYS) * 100);
