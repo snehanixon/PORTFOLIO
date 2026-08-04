@@ -1,49 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Calendar as CalendarIcon, Cpu, Settings, Cloud, Plus, Trash2, Edit, AlertCircle, CheckCircle2, ChevronLeft, ChevronRight, X, BookOpen, ImageIcon, Camera, MapPin, Users } from 'lucide-react';
+import { Calendar as CalendarIcon, Cpu, Settings, Cloud, Plus, Trash2, Edit, AlertCircle, CheckCircle2, ChevronLeft, ChevronRight, X, BookOpen, ImageIcon } from 'lucide-react';
 import { loadActivities, saveActivities } from '../firebase';
 import img1 from '../assets/activity4.jpg';
 import img2 from '../assets/activity5.jpg';
 import img3 from '../assets/activity6.jpg';
-
-
-
-
-
-
-
-// Sub-component so each card can have its own expand state (hooks can't be called inside .map)
-function DayCard({ ev, idx, isAdmin, onEdit, onDelete }) {
-  const [expanded, setExpanded] = useState(false);
-  const evDate = new Date(ev.date + 'T00:00:00');
-  const dayShort = evDate.toLocaleDateString('en-US', { weekday:'short' });
-  const monthDay = evDate.toLocaleDateString('en-US', { month:'short', day:'numeric' });
-  const cat = ev.category || 'internship';
-  return (
-    <div className={`day-card glass-card day-cat-${cat}`}>
-      <div className="day-card-num-strip">
-        <span className="day-card-num">Day {String(idx + 1).padStart(2,'0')}</span>
-        <span className={`ev-badge ${cat}`}>{cat.toUpperCase()}</span>
-      </div>
-      <div className="day-card-date">
-        <span className="day-card-weekday">{dayShort}</span>
-        <span className="day-card-monthday">{monthDay}</span>
-      </div>
-      <h4 className="day-card-title">{ev.title}</h4>
-      <p className={`day-card-desc ${expanded ? 'expanded' : ''}`}>{ev.description}</p>
-      {ev.description && ev.description.length > 100 && (
-        <button className="day-card-expand-btn" onClick={() => setExpanded(e => !e)}>
-          {expanded ? 'Show less ↑' : 'Read more ↓'}
-        </button>
-      )}
-      {isAdmin && (
-        <div className="day-card-actions">
-          <button className="btn-sm btn-outline" onClick={() => onEdit(ev.date)}>Edit</button>
-          <button className="btn-sm btn-danger-outline" onClick={() => onDelete(ev.date)}>Delete</button>
-        </div>
-      )}
-    </div>
-  );
-}
 
 export default function PmVikas({ isAdmin }) {
   const [events, setEvents] = useState([]);
@@ -246,22 +206,16 @@ export default function PmVikas({ isAdmin }) {
   return (
     <div className="pm-vikas-page">
 
-      {/* ── PAGE HERO (background = intern1.jpg) ── */}
-      <div className="pv-hero" style={{ backgroundImage: `url(${intern1})` }}>
-        <div className="pv-hero-overlay" />
-        <div className="container pv-hero-content">
-          <span className="chip pv-chip">Internship · IIIT Kottayam</span>
-          <h1 className="section-title" style={{ textAlign:'left', marginTop:'12px', color:'#fff', fontFamily:"'Playfair Display', serif", textShadow:'0 2px 16px rgba(0,0,0,0.4)' }}>
+      {/* ── PAGE HERO ── */}
+      <div className="pv-hero">
+        <div className="container">
+          <span className="chip pv-chip">Internship</span>
+          <h1 className="section-title" style={{ textAlign:'left', marginTop:'12px', color:'#fff', fontFamily:"'Playfair Display', serif" }}>
             PM-VIKAS<br /><span style={{ color:'var(--primary)' }}>Program &amp; Activity Tracker</span>
           </h1>
-          <p className="section-subtitle" style={{ textAlign:'left', margin:'12px 0 0', color:'rgba(255,255,255,0.75)', textShadow:'0 1px 8px rgba(0,0,0,0.3)' }}>
+          <p className="section-subtitle" style={{ textAlign:'left', margin:'12px 0 0', color:'rgba(255,255,255,0.55)' }}>
             Daily activity log for my offline IoT internship at IIIT Kottayam under the PM-VIKAS scheme.
           </p>
-          <div className="pv-hero-badges">
-            <span className="pv-hero-badge"><MapPin size={13} /> IIIT Kottayam, Kerala</span>
-            <span className="pv-hero-badge"><Users size={13} /> PM-VIKAS Scheme</span>
-            <span className="pv-hero-badge"><Cpu size={13} /> IoT Internship</span>
-          </div>
           {isAdmin && (
             <div style={{ marginTop: '16px' }}>
               <span className="admin-active-badge">🔓 Admin Mode Active — You can add &amp; edit activities</span>
@@ -270,14 +224,7 @@ export default function PmVikas({ isAdmin }) {
         </div>
       </div>
 
-
-        {/* ── TOP NAVIGATION ── */}
-        <nav className="pmv-top-nav">
-
-          <a href="#projects">Projects</a>
-          <a href="#tracker">Activity Tracker</a>
-        </nav>
-        {/* ── BODY ── */}
+      {/* ── BODY ── */}
       <section className="pv-body-section">
         <div className="pv-container">
 
@@ -314,10 +261,8 @@ export default function PmVikas({ isAdmin }) {
             </div>
           </div>
 
-
-
           {/* ── PROJECTS CARD ── */}
-          <div id="projects" className="projects-card glass-card" style={{ marginBottom: '40px', padding: '24px 32px' }}>
+          <div className="projects-card glass-card" style={{ marginBottom: '40px', padding: '24px 32px' }}>
             <div className="info-header"><Cpu className="info-icon" size={22} /><h2>PM-VIKAS Projects</h2></div>
             <p className="info-desc" style={{ marginBottom: '24px' }}>Projects I built and contributed to during the PM-VIKAS internship at IIIT Kottayam — click to view on GitHub.</p>
 
@@ -468,7 +413,7 @@ export default function PmVikas({ isAdmin }) {
           })()}
 
           {/* ── TRACKER SECTION HEADER ── */}
-          <div id="tracker" className="tracker-section-header">
+          <div className="tracker-section-header">
             <CalendarIcon size={20} className="tracker-header-icon" />
             <h2>Daily Activity Tracker</h2>
             {isAdmin && (
@@ -562,17 +507,33 @@ export default function PmVikas({ isAdmin }) {
                 <p>{searchQuery ? 'No activities match your search query.' : 'No activity logs yet. Login as admin and use the + Add Activity button to start logging.'}</p>
               </div>
             ) : (
-              <div className="day-grid">
-                {sortedEvents.map((ev, idx) => (
-                  <DayCard
-                    key={ev.id || idx}
-                    ev={ev}
-                    idx={idx}
-                    isAdmin={isAdmin}
-                    onEdit={openAddModal}
-                    onDelete={handleDeleteEvent}
-                  />
-                ))}
+              <div className="v-timeline">
+                <div className="v-line" />
+                {sortedEvents.map((ev, idx) => {
+                  const evDate = new Date(ev.date + 'T00:00:00');
+                  const dayLabel = evDate.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' }).toUpperCase();
+                  return (
+                    <div key={ev.id || idx} className="v-node">
+                      <div className="v-dot"><div className={`v-dot-inner ${ev.category || 'internship'}`} /></div>
+                      <div className="v-content">
+                        <span className="v-date">{dayLabel}</span>
+                        <div className="glass-card v-card">
+                          <div className="v-card-top">
+                            <h3>Day {String(idx + 1).padStart(2,'0')}: {ev.title}</h3>
+                            <span className={`ev-badge ${ev.category || 'internship'}`}>{(ev.category||'internship').toUpperCase()}</span>
+                          </div>
+                          <p className="v-card-desc">{ev.description}</p>
+                          {isAdmin && (
+                            <div className="v-card-actions">
+                              <button className="btn-sm btn-outline" onClick={() => openAddModal(ev.date)}>Edit</button>
+                              <button className="btn-sm btn-danger-outline" onClick={() => handleDeleteEvent(ev.date)}>Delete</button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -637,105 +598,8 @@ export default function PmVikas({ isAdmin }) {
       <style>{`
         /* ── Page base ── */
         .pm-vikas-page { width: 100%; position: relative; }
-
-        /* Hero with background image */
-        .pv-hero {
-          position: relative;
-          padding: 0;
-          background-size: cover;
-          background-position: center 40%;
-          background-repeat: no-repeat;
-          min-height: 420px;
-          display: flex;
-          align-items: flex-end;
-        }
-        .pv-hero-overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            to bottom,
-            rgba(10,10,20,0.45) 0%,
-            rgba(10,10,20,0.72) 60%,
-            rgba(10,10,20,0.92) 100%
-          );
-          z-index: 1;
-        }
-        .pv-hero-content {
-          position: relative;
-          z-index: 2;
-          padding-top: 40px;
-          padding-bottom: 48px;
-          width: 100%;
-        }
-        .pv-hero-badges {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
-          margin-top: 18px;
-        }
-        .pv-hero-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 5px;
-          background: rgba(255,255,255,0.12);
-          backdrop-filter: blur(8px);
-          border: 1px solid rgba(255,255,255,0.22);
-          color: #fff;
-          font-size: 0.78rem;
-          font-weight: 600;
-          padding: 5px 12px;
-          border-radius: 50px;
-          letter-spacing: 0.02em;
-        }
+        .pv-hero { background: var(--dark); padding: 56px 0 44px; }
         .pv-chip { background: var(--primary); color: #fff; }
-
-        .pmv-top-nav {
-          display: flex;
-          gap: 24px;
-          justify-content: center;
-          margin: 24px 0;
-        }
-        .pmv-top-nav a {
-          color: var(--primary);
-          font-weight: 600;
-          text-decoration: none;
-        }
-        .pmv-top-nav a:hover { text-decoration: underline; }
-        html { scroll-behavior: smooth; }
-
-        /* ── PHOTO GALLERY ── */
-        .pv-gallery-section { background: #fff; border: 1.5px solid var(--card-border); max-width: 720px; margin: 0 auto; }
-        .pv-gallery-section:hover { border-color: var(--primary); }
-        .gallery-marquee {
-          overflow: hidden;
-        }
-
-        .gallery-track {
-          display: flex;
-          width: max-content;
-          animation: marquee 30s linear infinite;
-        }
-
-        .gallery-item {
-          flex: 0 0 auto;
-          width: 200px;
-          margin-right: 12px;
-        }
-
-        .gallery-item img {
-          width: 100%;
-          height: auto;
-          object-fit: cover;
-          position: absolute;
-          bottom: 0; left: 0; right: 0;
-          background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
-          color: #fff;
-          font-size: 0.78rem;
-          font-weight: 600;
-          padding: 20px 12px 10px;
-          line-height: 1.3;
-        }
-        .pv-gallery-featured .pv-gallery-caption { font-size: 0.88rem; padding: 28px 16px 14px; }
 
         .pv-body-section { padding: 40px 0 100px; }
         .pv-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
@@ -945,116 +809,35 @@ export default function PmVikas({ isAdmin }) {
         /* Tracker section header inline btn */
         .fab-inline { margin-left: auto; }
 
-        /* ── DAY CARD GRID (replaces old timeline) ── */
-        .day-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-          gap: 16px;
-          margin-top: 20px;
-        }
-        .day-card {
+        /* ── TIMELINE ── */
+        .timeline-section { position: relative; margin-top: 40px; }
+        .v-timeline { position: relative; padding-left: 30px; margin-top: 20px; }
+        .v-line { position: absolute; left: 10px; top: 10px; bottom: 0; width: 2px; background: var(--card-border); }
+        .v-node { position: relative; margin-bottom: 30px; }
+        .v-dot { position: absolute; left: -30px; top: 4px; width: 22px; height: 22px; background: var(--bg); border: 3px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; }
+        .v-dot-inner { width: 6px; height: 6px; border-radius: 50%; }
+        .v-dot-inner.internship { background: var(--primary); }
+        .v-dot-inner.project { background: #8b5cf6; }
+        .v-dot-inner.personal { background: #22c55e; }
+        .v-dot-inner.leave { background: #ef4444; }
+
+        .v-content { display: flex; flex-direction: column; gap: 6px; }
+        .v-date { font-size: 0.78rem; font-weight: 700; color: #8b5cf6; letter-spacing: 0.04em; }
+
+        .v-card {
           background: #fff !important;
           border: 1.5px solid var(--card-border) !important;
-          border-radius: 14px !important;
-          padding: 18px 18px 14px !important;
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-          transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s, border-color 0.3s !important;
-          position: relative;
-          overflow: hidden;
+          transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
-        .day-card::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 0;
-          width: 4px; height: 100%;
-          border-radius: 14px 0 0 14px;
+        .v-card:hover {
+          border-color: #8b5cf6 !important;
+          transform: translateY(-4px);
+          box-shadow: 0 12px 24px rgba(139, 92, 246, 0.15);
         }
-        .day-cat-internship::before { background: var(--primary); }
-        .day-cat-project::before { background: #8b5cf6; }
-        .day-cat-personal::before { background: #22c55e; }
-        .day-cat-leave::before { background: #ef4444; }
-        .day-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 14px 32px rgba(0,0,0,0.10) !important;
-          border-color: var(--primary) !important;
-        }
-        .day-card-num-strip {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 4px;
-        }
-        .day-card-num {
-          font-size: 0.68rem;
-          font-weight: 800;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: var(--text-muted);
-        }
-        .day-card-date {
-          display: flex;
-          align-items: baseline;
-          gap: 6px;
-          margin-bottom: 2px;
-        }
-        .day-card-weekday {
-          font-size: 0.72rem;
-          font-weight: 700;
-          color: #8b5cf6;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-        }
-        .day-card-monthday {
-          font-size: 1rem;
-          font-weight: 800;
-          color: var(--text);
-          font-family: 'Playfair Display', serif;
-        }
-        .day-card-title {
-          font-size: 0.9rem;
-          font-weight: 800;
-          color: var(--text);
-          line-height: 1.35;
-          margin: 0;
-        }
-        .day-card-desc {
-          font-size: 0.82rem;
-          color: var(--text-muted);
-          line-height: 1.55;
-          margin: 0;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          transition: all 0.3s ease;
-        }
-        .day-card-desc.expanded {
-          display: block;
-          -webkit-line-clamp: unset;
-          overflow: visible;
-        }
-        .day-card-expand-btn {
-          background: none;
-          border: none;
-          color: var(--primary);
-          font-size: 0.75rem;
-          font-weight: 700;
-          cursor: pointer;
-          padding: 0;
-          margin-top: -4px;
-          text-align: left;
-          letter-spacing: 0.02em;
-        }
-        .day-card-expand-btn:hover { text-decoration: underline; }
-        .day-card-actions {
-          display: flex;
-          gap: 8px;
-          margin-top: 6px;
-          padding-top: 8px;
-          border-top: 1px solid var(--card-border);
-        }
+        .v-card-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+        .v-card-top h3 { font-size: 1rem; font-weight: 800; color: var(--text); line-height: 1.3; }
+        .v-card-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+        .v-card-actions { display: flex; gap: 8px; margin-top: 10px; }
 
         /* Search styling */
         .search-wrap {
